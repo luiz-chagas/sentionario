@@ -66,6 +66,7 @@ router.post('/voto', (req, res, next) => {
             break;
         }
         palavra.set("qtdVotos", ++palavra.qtdVotos);
+        palavra.set("votosmedia", palavra.total / palavra.qtdVotos);
         palavra.save();
         User.findById(voto.id_usuario)
           .then(function(user) {
@@ -185,8 +186,26 @@ router.get('/estatistica', function(req, res) {
       Palavra.findAll()
         .then(function(palavras) {
           stats.palavras = palavras.length;
-          return res.status(200).json({
-            stats
+          Palavra.findAll({
+            where: {
+              votosmedia: {
+                $gt: 5
+              }
+            }
+          }).then(function(palavras) {
+            stats.palavrasPos = palavras.length;
+            Palavra.findAll({
+              where: {
+                votosmedia: {
+                  $lt: 5
+                }
+              }
+            }).then(function(palavras) {
+              stats.palavrasNeg = palavras.length;
+              return res.status(200).json({
+                stats
+              });
+            })
           })
         })
     });

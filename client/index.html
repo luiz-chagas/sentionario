@@ -27,13 +27,13 @@
                 <li class="hide-mobile">
                     <a href="/" class="w3-hover-blue">Home</a>
                 </li>
-                <li class="hide-mobile">
+                <li ng-show="logado" class="hide-mobile">
                     <a href="colaborar" class="w3-hover-blue">Classificar palavras</a>
                 </li>
                 <li class="hide-mobile">
                     <a href="consultar" class="w3-hover-blue">Consultar Sentimento</a>
                 </li>
-                <li class="hide-mobile">
+                <li ng-show="logado" class="hide-mobile">
                     <a href="ranking" class="w3-hover-blue">Ranking</a>
                 </li>
                 <li class="hide-mobile">
@@ -67,12 +67,11 @@
     <footer class="container footer">
         <div class='menu-footer'>
             <p>
-                <a href="#">Sentionário</a>
-                <a href="#">Colaborar</a>
-                <a href="#">Ranking</a>
-                <a href="#">Download</a>
-                <a href="#">Termos de uso</a>
-                <a href="#">Ajuda</a>
+                <a href="/">Sentionário</a>
+                <a ng-show="logado" href="colaborar">Classificar palavras</a>
+                <a href="consultar">Consultar Sentimento</a>
+                <a ng-show="logado" href="ranking">Ranking</a>
+                <a href="download">Download</a>
             </p>
         </div>
         <p>Desenvolvidor por <a href="http://www.luizjr.me/" target="_blank">luizjr</a></p>

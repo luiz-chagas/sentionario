@@ -7,12 +7,16 @@ var app = angular.module('sentionario', ['rzModule', 'ngRoute']);
 app.run(function($rootScope, $location, $route, AuthService) {
   $rootScope.$on('$routeChangeStart', function(event, next, current) {
     AuthService.getUserStatus()
-      .then(function(event, next, current) {
+      .then(function() {
         if (!AuthService.isLoggedIn()) {
           $rootScope.logado = false;
         } else {
           $rootScope.logado = true;
           $rootScope.user = AuthService.getUser();
+        }
+      }).then(function() {
+        if (next.restricted && !$rootScope.logado) {
+          $location.path('/');
         }
       });
   });
@@ -32,7 +36,8 @@ app.config(function($routeProvider, $locationProvider) {
     })
     .when('/colaborar', {
       templateUrl: './partials/colaborar.html',
-      controller: 'ColaborarController'
+      controller: 'ColaborarController',
+      restricted: true
     })
     .when('/consultar', {
       templateUrl: './partials/consultar.html',
@@ -48,13 +53,12 @@ app.config(function($routeProvider, $locationProvider) {
     })
     .when('/ranking', {
       templateUrl: './partials/ranking.html',
-      controller: 'RankingController'
+      controller: 'RankingController',
+      restricted: true
     })
     .when('/logout', {
       controller: 'LogoutController',
-      access: {
-        restricted: true
-      }
+      restricted: true
     });
 
   $locationProvider.html5Mode(true);
