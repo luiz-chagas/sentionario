@@ -3,31 +3,38 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'senha'
-  },function(email, senha, done){
+  usernameField: 'email',
+  passwordField: 'senha'
+}, function(senha, email, done) {
+  console.log(senha);
   User.findOne({
     where: {
       'email': email
     }
-  }).then(function(user, err){
-    if (err) { return done(err); }
-    if(!user) {
-      return done(null, false, { message: 'Dados incorretos.' })
+  }).then(function(user, err) {
+    if (err) {
+      return done(err);
     }
-    if(senha != user.senha){
-      return done(null, false, { message: 'Dados incorretos.' })
+    if (!user) {
+      return done(null, false, {
+        message: 'Dados incorretos.'
+      })
+    }
+    if (senha != user.senha) {
+      return done(null, false, {
+        message: 'Dados incorretos.'
+      })
     }
     return done(null, user)
   })
 }));
 
-passport.serializeUser(function(user, done){
-    done(null, user.id);
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
 })
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id).then(function (user) {
+  User.findById(id).then(function(user) {
     done(null, user);
   });
 });
