@@ -13,6 +13,10 @@ h6 {
 }
 
 .logo {
+    font-family: serif;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0;
     display: inline-block;
 }
 
@@ -27,6 +31,12 @@ footer {
         margin-bottom: 20px;
         padding: 0;
     }
+}
+
+.erro {
+    color: red;
+    display: block;
+    margin-bottom: 10px;
 }
 
 .menu-footer {
@@ -68,17 +78,59 @@ nav {
     }
 }
 
+.tooltip {
+    cursor: pointer;
+    color: $pri-color;
+    border-bottom: 1px dotted black;
+    position: relative;
+}
+
+.tooltiptext {
+    font-size: 14px;
+    visibility: hidden;
+    width: 180px;
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -90px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #222 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
 .principal {
     padding-bottom: 80px;
 }
 
 .plataforma {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 h2 {
     font-family: "Arial", sans-serif;
     text-align: center;
+    font-size: 38px;
 }
 
 h3 {
@@ -215,8 +267,28 @@ p {
     @extend .card-hover;
     padding: 0;
 
+    &:focus,
     &:hover {
         color: white;
+    }
+}
+
+.minibotao {
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    background-color: $pri-color;
+    color: $bg-color;
+    transition: 1s;
+    border: 1px solid $bg-color;
+    margin-left: 30px;
+    padding: 5px;
+
+    &:hover {
+        color: $pri-color;
+        background-color: $bg-color;
+        transition: 0.4s;
     }
 }
 

@@ -49,10 +49,11 @@ app.config(function($routeProvider, $locationProvider) {
     })
     .when('/perfil', {
       templateUrl: './partials/perfil.html',
-      controller: 'PerfilController'
+      controller: 'PerfilController',
+      restricted: true
     })
-    .when('/ranking', {
-      templateUrl: './partials/ranking.html',
+    .when('/estatisticas', {
+      templateUrl: './partials/estatisticas.html',
       controller: 'RankingController',
       restricted: true
     })
@@ -74,19 +75,19 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
       });
   }
 
+  $scope.reset = function() {
+    $scope.erro = "";
+  }
+
   $scope.logar = function() {
-    $scope.error = false;
-    $scope.disabled = true;
+
+    $scope.erro = "";
 
     AuthService.login($scope.email, $scope.senha)
-      .then(function() {
-        $scope.disabled = false;
+      .then(function(response) {
         $route.reload();
-      })
-      .catch(function() {
-        $scope.error = true;
-        $scope.errorMessage = "Usuario ou senha invalidos";
-        $scope.disabled = false;
+      }, function(error) {
+        $scope.erro = "Usuario ou senha invalidos";
       })
   }
 
@@ -94,17 +95,17 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
     if ($scope.senha != $scope.confirmaSenha)
       return;
 
-    $scope.error = false;
-    $scope.disabled = true;
+    $scope.erro = "";
 
     AuthService.register($scope.nome, $scope.email, $scope.senha)
       .then(function() {
-        $scope.disabled = false;
-        $route.reload();
+        AuthService.login($scope.email, $scope.senha)
+          .then(function() {
+            $route.reload();
+          })
       })
       .catch(function() {
-        $scope.error = true;
-        $scope.disabled = false;
+        $scope.erro = "Erro ao cadastrar no sistema";
       })
   }
 }]);
@@ -121,8 +122,7 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
     $scope.smiley = "../images/smiley" + $scope.slider.value + ".png";
   };
   $scope.palavra = {
-    id: 0,
-    nome: ''
+    nome: 'Carregando...'
   };
   $scope.envia = function() {
     $scope.disabled = true;
@@ -134,9 +134,7 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
     $scope.palavra.nome = "Carregando...";
     $http.post("/api/voto", data)
       .then(function() {
-        $timeout(function() {
-          $route.reload();
-        }, 500);
+        $route.reload();
       });
   }
   $scope.slider = {
@@ -161,13 +159,14 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
     "Muito Positivo",
     "Extremamente Positivo"
   ];
-  $scope.disabled = false;
   $scope.output = $scope.estados[$scope.slider.value - 1];
   $scope.smiley = "../images/smiley" + $scope.slider.value + ".png";
   setPalavra = function() {
     var i = Math.random() * palavras.length;
     i = Math.floor(i);
-    $scope.palavra = palavras[i];
+    $scope.palavra.nome = palavras[i].nome;
+    $scope.palavra.id = palavras[i].id;
+    $scope.disabled = false;
   };
 }]);
 
@@ -224,7 +223,7 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($
           showGrid: false
         }
       });
-    }, 800);
+    }, 500);
   }
 
   $scope.smileySrc = function(valor, votos) {
@@ -262,7 +261,43 @@ app.controller('RankingController', ["$scope", "$http", function($scope, $http) 
 
   $http.get("/api/estatistica").then(function(response) {
     $scope.stats = response.data.stats;
+    $scope.loadGraph();
   });
+
+  $scope.loadGraph = function() {
+    var data = {
+      labels: ['Positivo', 'Negativo', 'Neutro'],
+      series: [{
+          value: $scope.stats.palavrasPos,
+          className: 'pos-chart'
+        },
+        {
+          value: $scope.stats.palavrasNeg,
+          className: 'neg-chart'
+        },
+        {
+          value: $scope.stats.palavras - ($scope.stats.palavrasPos + $scope.stats.palavrasNeg),
+          className: 'neutro-chart'
+        }
+      ]
+    };
+
+    var sum = function(a, b) {
+      return a + b
+    };
+
+    var options = {
+      chartPadding: 20,
+      labelOffset: 50
+    };
+
+    new Chartist.Pie('.graphPalavras', data, options);
+  }
+}]);
+
+app.controller('PerfilController', ["$scope", "$http", function($scope, $http) {
+  $scope.nome = $scope.user.nome;
+  $scope.email = $scope.user.email;
 }]);
 
 //#####################################################
@@ -323,6 +358,9 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
         user = false;
         deferred.reject();
       }
+    }, function(error) {
+      user = false;
+      deferred.reject();
     });
 
     return deferred.promise;

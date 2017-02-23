@@ -1,27 +1,27 @@
-.rank li:nth-child(1){
+.rank li:nth-child(1) {
     background-color: #FFDF00;
 }
 
-.rank li:nth-child(2){
+.rank li:nth-child(2) {
     background-color: #C0C0C0;
 }
 
-.rank li:nth-child(3){
+.rank li:nth-child(3) {
     background-color: #B87333;
 }
 
-.rank li{
+.rank li {
     font-size: 20px;
     padding-top: 20px;
     height: 50px;
     background: $azul-claro;
 }
 
-.rank{
+.rank {
     list-style: none;
 }
 
-.avatar{
+.avatar {
     width: 50px;
     border-radius: 50%;
     float: left;
@@ -30,9 +30,26 @@
     margin-left: 10px;
 }
 
-.points{
-    margin-top: 0px;
+.points {
+    margin-top: 0;
     float: right;
     font-size: 18px;
     margin-right: 10px;
+}
+
+.pos-chart {
+    fill: #00BF57;
+}
+
+.neg-chart {
+    fill: #FF0037;
+}
+
+.neutro-chart {
+    fill: #FFED97;
+}
+
+.graphPalavras{
+  width: 80%;
+  margin: 0 auto;
 }

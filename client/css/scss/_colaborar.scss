@@ -16,7 +16,7 @@
   color: darken(yellow, 20%);
 }
 .logout{
-  &:hover{
+  &:hover, &:focus{
     color: black;
   }
 }

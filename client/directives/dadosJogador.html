@@ -1,6 +1,6 @@
 <div ng-controller="HomeController">
   <div class='card' ng-show="logado">
-    <h3>Dados do usuario</h3>
+    <h3>Dados do usuario<a href="perfil" class="minibotao">Editar</a></h3>
     <div class="info">
       <h5>
         {{user.nome}}
@@ -12,7 +12,7 @@
     <button ng-click="deslogar()" class="botao logout">Sair</button>
   </div>
 
-  <div class="card center" ng-show="logado">
+  <div class="card center hide" ng-show="logado">
     <div id="meta">
       <h3>Meta Diária</h3>
       <div class="info">
@@ -26,11 +26,24 @@
     </div>
   </div>
 
+  <div class='card' ng-show="logado">
+    <h3>Sugerir palavra</h3>
+    <div class="info">
+      <form>
+        Palavra <span class="tooltip">?
+          <span class="tooltiptext">Insira palavras em sua forma singular (Ex: Bonita, ao invés de Bonitas)</span>
+        </span>
+        <input type="text" />
+        <button class="botao logout">Sugerir</button>
+      </form>
+    </div>
+  </div>
+
   <div class="card" ng-show="!logado">
     <div class="cadastroMenu">
       <ul>
-        <li><a href="javascript:void(0)" onclick="loginDiv('#login')">Entrar</a></li>
-        <li><a href="javascript:void(0)" onclick="loginDiv('#cadastro')">Cadastre-se</a></li>
+        <li><a href="javascript:void(0)" ng-click="reset()" onclick="loginDiv('#login')">Entrar</a></li>
+        <li><a href="javascript:void(0)" ng-click="reset()" onclick="loginDiv('#cadastro')">Cadastre-se</a></li>
       </ul>
     </div>
     <div id="login" class="fadeIn">
@@ -41,6 +54,7 @@
           <label><b>Senha</b></label>
           <input type="password" ng-model="senha" placeholder="Digite a senha" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
           <button class="botao azul" ng-click="logar()">Entrar</button>
+          <span ng-model="erro" class="erro">{{erro}}</span>
           <input type="checkbox" checked="checked"> Lembrar usuário</input>
         </div>
       </form>
@@ -49,7 +63,7 @@
       </div>
     </div>
     <div id="cadastro" class="fadeIn hide">
-      <form action="#">
+      <form>
         <div>
           <label><b>Nome</b></label>
           <input type="text" ng-model="nome" placeholder="Digite seu nome" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
@@ -60,6 +74,7 @@
           <label><b>Confirmação de Senha</b></label>
           <input type="password" ng-model="confirmaSenha" placeholder="Digite sua senha novamente" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
           <button class="botao azul" ng-click="registrar()">Cadastrar</button>
+          <span ng-model="erro" class="erro">{{erro}}</span>
         </div>
       </form>
     </div>

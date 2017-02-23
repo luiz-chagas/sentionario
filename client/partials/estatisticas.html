@@ -1,11 +1,11 @@
 <div>
   <div class="container card">
     <h2>
-                Ranking
+                Estatisticas
             </h2>
     <div class='row'>
       <div class="six columns info">
-        <h3 class="">Lista de maiores classificadores</h3>
+        <h3 class="">Ranking de classificadores</h3>
         <ul class="rank">
           <li ng-repeat="user in top10">
             <img src="images/img_avatar2.png" class="avatar" />#{{$index + 1}} {{user.nome}}
@@ -19,6 +19,7 @@
             Total de palavras: {{stats.palavras}}<br />
             Palavras positivas: {{stats.palavrasPos}}<br />
             Palavras negativas: {{stats.palavrasNeg}}
+            <div class="ct-chart ct-major-second graphPalavras"></div>
         </div>
         <div class='plataforma'>
             Total de usuarios: {{stats.usuarios}}
