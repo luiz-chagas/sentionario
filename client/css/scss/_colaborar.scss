@@ -1,0 +1,53 @@
+.info {
+  padding: 10px;
+  border: 3px solid $pri-color;
+  p {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    &:first-letter {
+      font-size: 100%;
+    }
+  }
+}
+.aviso{
+  display: block;
+  background-color: lighten(yellow, 40%);
+  border: 1px yellow solid;
+  color: darken(yellow, 20%);
+}
+.logout{
+  &:hover{
+    color: black;
+  }
+}
+.sidebar {
+  div {
+    margin-bottom: 20px;
+  }
+  h3 {
+    text-align: center;
+  }
+}
+.palavra {
+  text-transform: capitalize;
+}
+#slider {
+  margin-top: 30px;
+}
+.rslider {
+  margin-bottom: 20px;
+}
+.stickerR {
+  font-size: 30px;
+  text-align: left;
+  width: 10%;
+  color: lime;
+  padding-top: 10px;
+}
+.stickerL {
+  font-size: 30px;
+  text-align: right;
+  width: 10%;
+  color: red;
+  padding-top: 10px;
+}

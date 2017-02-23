@@ -1,0 +1,10 @@
+{
+	"development": {
+		"database": "sentionario",
+		"user": "root",
+		"password": "password",
+		"host": "localhost",
+		"dialect": "postgres",
+    "logging": false
+	}
+}

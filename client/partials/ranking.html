@@ -1,0 +1,27 @@
+<div>
+  <div class="container card">
+    <h2>
+                Ranking
+            </h2>
+    <div class='row'>
+      <div class="six columns info">
+        <h3 class="">Lista de maiores classificadores</h3>
+        <ul class="rank">
+          <li ng-repeat="user in top10">
+            <img src="images/img_avatar2.png" class="avatar" />#{{$index + 1}} {{user.nome}}
+            <span class="points">{{user.pontos}}pts</span>
+          </li>
+        </ul>
+      </div>
+      <div class="six columns info">
+        <h3>Informações sobre a plataforma</h3>
+        <div class='plataforma'>
+            Total de palavras: {{stats.palavras}}
+        </div>
+        <div class='plataforma'>
+            Total de usuarios: {{stats.usuarios}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

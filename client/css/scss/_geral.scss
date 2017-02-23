@@ -1,0 +1,391 @@
+body {
+    background-color: $bg-color;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Arial", sans-serif;
+}
+
+.logo {
+    display: inline-block;
+}
+
+footer {
+    text-align: center;
+
+    a {
+        display: inline-block;
+    }
+
+    p {
+        margin-bottom: 20px;
+        padding: 0;
+    }
+}
+
+.menu-footer {
+    margin-top: 50px;
+    margin-bottom: 20px;
+
+    a {
+        color: dimgrey;
+        font-size: 2.1rem;
+        text-decoration: none;
+        margin-left: 20px;
+
+        &:hover {
+            color: black;
+        }
+    }
+}
+
+nav {
+    margin-top: 2rem;
+
+    li {
+        display: inline-block;
+        margin-right: 0.5rem;
+
+        a {
+            color: black;
+            text-decoration: none;
+            padding: 1rem;
+            transition: 0.3s;
+            font-size: 1.8rem;
+            display: block;
+
+            &:hover {
+                color: white;
+                background-color: $pri-color;
+            }
+        }
+    }
+}
+
+.principal {
+    padding-bottom: 80px;
+}
+
+.plataforma {
+  margin-bottom: 30px;
+}
+
+h2 {
+    font-family: "Arial", sans-serif;
+    text-align: center;
+}
+
+h3 {
+    background-color: $pri-color;
+    font-size: 2.4rem;
+    color: white;
+    padding: 1rem;
+}
+
+h5 {
+    font-size: 1.8rem;
+    margin-top: 1rem;
+}
+
+p {
+    font-family: "Georgia", serif;
+    font-size: 1.6rem;
+    padding-bottom: 2rem;
+
+    &:first-letter {
+        font-size: 150%;
+    }
+}
+
+.card {
+    padding: 1rem;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.22);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card-hover {
+    @extend .card;
+
+    &:hover {
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+}
+
+#busca {
+    background-color: transparent;
+    background-image: url("../images/search.png");
+    background-size: 30px 30px;
+    background-position: 0 5px;
+    background-repeat: no-repeat;
+    padding-left: 35px;
+    width: 1rem;
+    margin-top: 1rem;
+    transition: 0.3s ease-in-out;
+    float: right;
+    border: none;
+
+    &:focus {
+        background-color: white;
+        width: 20rem;
+        border: 1px solid $bg-color;
+    }
+}
+
+.mobile {
+    display: none;
+    @include device(mobile) {
+        display: inherit;
+    }
+
+    li {
+        display: block;
+    }
+}
+
+.menuMobile {
+    float: right;
+    font-size: 3.6rem;
+    color: black;
+
+    &:hover {
+        color: black;
+    }
+}
+
+.hide-mobile {
+    @include device(mobile) {
+        display: none;
+    }
+}
+
+.hide {
+    display: none;
+}
+
+.cadastroMenu {
+    ul {
+        background: $pri-color;
+        box-shadow: 0 0 0 9px $pri-color;
+        text-align: center;
+    }
+
+    li {
+        display: inline-block;
+        margin: 0 2rem 0 0;
+
+        a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            border: none;
+            margin: 0;
+            padding: 0.5rem;
+            letter-spacing: 0.1rem;
+            font-weight: bold;
+            display: block;
+
+            &:hover {
+                background: white;
+                color: $pri-color;
+            }
+        }
+    }
+}
+
+.esqueceu {
+    color: black;
+
+    &:hover {
+        color: inherit;
+    }
+    padding: 1rem;
+    display: inline-block;
+    margin-right: 2rem;
+}
+
+.botao {
+    @extend .card-hover;
+    padding: 0;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.direita {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+.verde {
+    background: lime;
+    color: white;
+}
+
+.azul {
+    background: $pri-color;
+    color: white;
+}
+
+.cinza {
+    background: lightgrey;
+    color: black;
+}
+
+#myProgress {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    background-color: #eee;
+    border: 1px $pri-color solid;
+}
+
+#myBar {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: $pri-color;
+}
+
+#label {
+    text-align: center;
+    /* If you want to center it */
+    line-height: 30px;
+    /* Set the line-height to the same as the height of the progress bar container, to center it vertically */
+    color: white;
+}
+
+.buscar {
+    text-align: center;
+    padding: 5px;
+
+    input {
+        border: none;
+        max-width: 400px;
+        display: inline-block;
+        text-align: center;
+
+        &:focus {
+            border: none;
+            border-bottom: 1px solid grey;
+        }
+    }
+}
+
+.palavra {
+    font-size: 50px;
+}
+
+#btnBuscar {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fff;
+    background-image: url("../images/search.png");
+    background-size: 30px 30px;
+    background-position: 3px 3px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+output {
+    display: block;
+}
+
+.send {
+    @extend .card-hover;
+    padding-top: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 20px;
+    background-color: $pri-color;
+    color: white;
+    width: auto;
+    border-radius: 0;
+    border-color: currentColor;
+    font-size: 1.6rem;
+    text-transform: none;
+
+    &:focus,
+    &:hover {
+        color: white;
+        border-color: currentColor;
+    }
+}
+
+.smiley {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    height: 70px;
+    float: left;
+}
+
+.smileyColab {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 70px;
+    float: none;
+}
+
+.detalhesPalavra {
+    padding-left: 90px;
+
+    p {
+        padding: 0;
+        margin: 0;
+
+        &:first-letter {
+            font-size: 100%;
+        }
+    }
+}
+
+.small {
+    font-size: 80%;
+}
+
+.dadosClassificacao {
+    display: inline-block;
+    margin-top: -40px;
+
+    p {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.likeDiv {
+    margin-top: 10px;
+}
+
+.like {
+    width: 20px;
+    cursor: pointer;
+}
+
+.resultado {
+    margin-bottom: 30px;
+}
+
+.likeLabel {
+    margin-left: 5px;
+    margin-right: 20px;
+}
+
+.disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+}

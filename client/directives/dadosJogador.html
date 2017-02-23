@@ -1,0 +1,67 @@
+<div ng-controller="HomeController">
+  <div class='card' ng-show="logado">
+    <h3>Dados do usuario</h3>
+    <div class="info">
+      <h5>
+        {{user.nome}}
+      </h5>
+      <p>
+        Pontos: {{user.pontos}}
+      </p>
+    </div>
+    <button ng-click="deslogar()" class="botao logout">Sair</button>
+  </div>
+
+  <div class="card center" ng-show="logado">
+    <div id="meta">
+      <h3>Meta Diária</h3>
+      <div class="info">
+        <div id="myProgress">
+          <div id="myBar">
+            <div id="label">50%</div>
+          </div>
+        </div>
+        <h5>Classificações: 5/10</h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" ng-show="!logado">
+    <div class="cadastroMenu">
+      <ul>
+        <li><a href="javascript:void(0)" onclick="loginDiv('#login')">Entrar</a></li>
+        <li><a href="javascript:void(0)" onclick="loginDiv('#cadastro')">Cadastre-se</a></li>
+      </ul>
+    </div>
+    <div id="login" class="fadeIn">
+      <form>
+        <div>
+          <label><b>Email</b></label>
+          <input type="text" ng-model="email" placeholder="Digite o nome de usuário" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
+          <label><b>Senha</b></label>
+          <input type="password" ng-model="senha" placeholder="Digite a senha" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
+          <button class="botao azul" ng-click="logar()">Entrar</button>
+          <input type="checkbox" checked="checked"> Lembrar usuário</input>
+        </div>
+      </form>
+      <div class="cinza direita">
+        <a class='esqueceu' href="#">Esqueceu a senha?</a>
+      </div>
+    </div>
+    <div id="cadastro" class="fadeIn hide">
+      <form action="#">
+        <div>
+          <label><b>Nome</b></label>
+          <input type="text" ng-model="nome" placeholder="Digite seu nome" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
+          <label><b>E-mail</b></label>
+          <input type="text" ng-model="email" placeholder="Digite seu email" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
+          <label><b>Senha</b></label>
+          <input type="password" ng-model="senha" placeholder="Digite sua senha" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
+          <label><b>Confirmação de Senha</b></label>
+          <input type="password" ng-model="confirmaSenha" placeholder="Digite sua senha novamente" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
+          <button class="botao azul" ng-click="registrar()">Cadastrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

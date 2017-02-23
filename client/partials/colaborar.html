@@ -1,0 +1,39 @@
+<div class="container row" ng-controller="ColaborarController">
+            <div class="eight columns card">
+                <div>
+                    <div>
+                        <h2>
+                            Qual sentimento desta palavra?
+                        </h2>
+                    </div>
+                    <div class='card'>
+                        <h2 id="palavra" class="palavra azul" ng-class="{disabled: disabled}"> {{palavra.nome}}
+                        </h2>
+                        <div id="slider">
+                            <div class='row'>
+                                <div class="one columns stickerL">
+                                    -
+                                </div>
+                                <div class="ten columns rslider">
+                                    <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+                                </div>
+                                <div class="one columns stickerR">
+                                    +
+                                </div>
+                            </div>
+                        </div>
+                        <div class="u-cf"></div>
+                        <div class='center'>
+                        <output>{{output}}</output>
+                        <img id="smileyFace" ng-src="{{smiley}}" class="smileyColab"></div>
+                        <div class='center'>
+                            <button id="enviar" ng-disabled="disabled || !logado" ng-class="{disabled: disabled || !logado}" ng-click="envia()" class="send">Classificar</button>
+                            <label ng-show="!logado" class="aviso">Faça login para avaliar sentimentos</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="four columns sidebar" >
+                <dados-jogador></dados-jogador>
+            </div>
+    </div>

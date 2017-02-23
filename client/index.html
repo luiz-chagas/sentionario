@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Sentionário - Plataforma para criação de dicionário de sentimentos">
+    <meta name="keywords" content="HTML5, JavaScript, CSS">
+    <meta name="author" content="http://luizjr.me/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/6.0.0/rzslider.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <base href="/"></base>
+    <title>
+        Sentionário
+    </title>
+</head>
+<body class="wrapper" ng-app="sentionario">
+    <!-- Navbar -->
+    <nav class='container'>
+        <div class='row'>
+            <div class='twelve columns hide-mobile'>
+                <h1 class="logo">Sentionário</h1>
+                <!--<input id="busca" class="input" type="text" name="search" placeholder="Pesquisar palavra...">-->
+            </div>
+            <ul class='u-cf'>
+                <li class="hide-mobile">
+                    <a href="/" class="w3-hover-blue">Home</a>
+                </li>
+                <li class="hide-mobile">
+                    <a href="colaborar" class="w3-hover-blue">Classificar palavras</a>
+                </li>
+                <li class="hide-mobile">
+                    <a href="consultar" class="w3-hover-blue">Consultar Sentimento</a>
+                </li>
+                <li class="hide-mobile">
+                    <a href="ranking" class="w3-hover-blue">Ranking</a>
+                </li>
+                <li class="hide-mobile">
+                    <a href="download" class="w3-hover-blue">Download</a>
+                </li>
+                <!--
+                <li class="hide-mobile">
+                    <a href="ajuda" class="w3-hover-blue">Ajuda</a>
+                </li>
+                -->
+            </ul>
+        </div>
+
+        <!-- Navbar on small screens -->
+        <div class="mobile">
+            <h1 class="logo">Sentionário</h1>
+            <a class="menuMobile" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+            <ul id="navMobile" class="hide">
+                <li><a class="w3-padding-large" href="#">Colaborar</a></li>
+                <li><a class="w3-padding-large" href="#">Ranking</a></li>
+                <li><a class="w3-padding-large" href="#">Download</a></li>
+                <li><a class="w3-padding-large" href="#">Ajuda</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- First Grid -->
+    <div ng-view></div>
+
+    <!-- Footer -->
+    <footer class="container footer">
+        <div class='menu-footer'>
+            <p>
+                <a href="#">Sentionário</a>
+                <a href="#">Colaborar</a>
+                <a href="#">Ranking</a>
+                <a href="#">Download</a>
+                <a href="#">Termos de uso</a>
+                <a href="#">Ajuda</a>
+            </p>
+        </div>
+        <p>Desenvolvidor por <a href="http://www.luizjr.me/" target="_blank">luizjr</a></p>
+    </footer>
+    <!-- SCRIPTS -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/6.0.0/rzslider.min.js"></script>
+    <script src="js/functions.js"></script>
+    <script src="js/app.js"></script>
+</body>

@@ -1,0 +1,39 @@
+<div class="container card">
+  <div class="principal">
+    <h2>
+                Sentionário
+            </h2>
+    <div class='buscar'>
+      <input id="consultar" type="text" placeholder="Consultar palavra" ng-model="busca" required>
+      <a id="btnBuscar" class="btnBuscar card-hover" ng-click="buscar()">&nbsp;</a>
+      </input>
+    </div>
+    <div class="bottomUp resultadoBusca" ng-repeat="palavra in palavrasFiltradas | orderBy: 'nome' | limitTo:6">
+      <div class="resultado card">
+        <div class="row">
+          <div class="six columns">
+            <div class="palavra">{{palavra.nome}}</div>
+          </div>
+          <div class="six columns">
+            <img ng-src="{{smileySrc(palavra.total, palavra.qtdVotos)}}" class="smiley"></img>
+            <div class="detalhesPalavra">
+              <p class=""> Sentimento: {{sentimento(palavra.total, palavra.qtdVotos)}}</p>
+              <p class=""> {{positividade(palavra.total, palavra.qtdVotos) | percentage:0}} de positividade</p>
+              <div class='likeDiv' ng-show="palavra.qtdVotos">
+                <p class="small">Esta classificação está correta?</p>
+                <img class="like" src="images/like.png"></img><span class="likeLabel">0</span>
+                <img class="like" src="images/dislike.png"></img><span class="likeLabel">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="dadosClassificacao six columns">
+            <p>Quantidade de classificações: {{palavra.qtdVotos}}</p>
+            <div class="ct-chart ct-major-second" ng-show="palavra.qtdVotos" data-ng-init="loadGraph(palavra)" ng-class="palavra.nome"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
