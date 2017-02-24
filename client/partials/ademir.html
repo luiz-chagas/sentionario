@@ -1,0 +1,21 @@
+<div class="container row">
+  <div class="eight columns card">
+    <div>
+      <div>
+        <h2>Administrar</h2>
+      </div>
+      <div>
+        <div>
+          <h3>Inserir Palavras</h3>
+        </div>
+        <form>
+          Palavra<input ng-model="palavra" type="text" required oninvalid="this.setCustomValidity('Por favor preencha este campo')" />
+          <button class="botao logout" ng-click="inserirPalavra()">Inserir</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="four columns sidebar">
+    <dados-jogador></dados-jogador>
+  </div>
+</div>

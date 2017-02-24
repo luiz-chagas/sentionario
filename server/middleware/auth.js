@@ -5,8 +5,7 @@ var LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'senha'
-}, function(senha, email, done) {
-  console.log(senha);
+}, function(email, senha, done) {
   User.findOne({
     where: {
       'email': email

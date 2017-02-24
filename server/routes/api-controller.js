@@ -15,6 +15,36 @@ router.get('/palavras', (req, res, next) => {
   });
 });
 
+router.post('/palavra', function(req, res, next) {
+  Palavra.findOne({
+    where: {
+      nome: req.body.palavra
+    }
+  }).then(function(palavra) {
+    if (palavra) {
+      return res.status(500).json({
+        status: "Palavra ja existe"
+      });
+    } else {
+      Palavra.create({
+        nome: req.body.palavra
+      }).then(function(palavra) {
+        return res.status(200).json({
+          status: "Palavra inserida com sucesso"
+        });
+      }, function(err) {
+        return res.status(500).json({
+          status: "Erro do sistema"
+        });
+      })
+    }
+  }, function(erro) {
+    return res.status(500).json({
+      status: "Erro do sistema"
+    });
+  });
+});
+
 router.post('/voto', (req, res, next) => {
   var palavraId = req.body.palavraId;
   var userId = req.body.userId;
@@ -212,7 +242,9 @@ router.get('/estatistica', function(req, res) {
 });
 
 router.get('*', function(req, res) {
-  return res.status(404);
+  return res.status(404).json({
+    status: "Pagina nao encontrada"
+  });
 });
 
 module.exports = router;

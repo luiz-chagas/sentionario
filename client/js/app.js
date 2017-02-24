@@ -17,6 +17,8 @@ app.run(function($rootScope, $location, $route, AuthService) {
       }).then(function() {
         if (next.restricted && !$rootScope.logado) {
           $location.path('/');
+        } else if (next.admin && !$rootScope.user.admin) {
+          $location.path('/');
         }
       });
   });
@@ -60,6 +62,12 @@ app.config(function($routeProvider, $locationProvider) {
     .when('/logout', {
       controller: 'LogoutController',
       restricted: true
+    })
+    .when('/ademir', {
+      controller: 'AdminController',
+      templateUrl: './partials/ademir.html',
+      restricted: true,
+      admin: true
     });
 
   $locationProvider.html5Mode(true);
@@ -74,6 +82,13 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
         $route.reload();
       });
   }
+  AuthService.getUserStatus().then(function() {
+    if (AuthService.isLoggedIn()) {
+      $scope.sugerir = AuthService.getUser().pontos > 499 ? true : false;
+    } else {
+      $scope.sugerir = false;
+    }
+  });
 
   $scope.reset = function() {
     $scope.erro = "";
@@ -82,6 +97,11 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
   $scope.logar = function() {
 
     $scope.erro = "";
+
+    if ($scope.email == null) {
+      $scope.erro = "Preencha email corretamente";
+      return;
+    }
 
     AuthService.login($scope.email, $scope.senha)
       .then(function(response) {
@@ -92,8 +112,14 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
   }
 
   $scope.registrar = function() {
-    if ($scope.senha != $scope.confirmaSenha)
+    if ($scope.senha != $scope.confirmaSenha) {
+      $scope.erro = "Senhas devem ser iguais";
       return;
+    }
+    if ($scope.email == null) {
+      $scope.erro = "Preencha email corretamente";
+      return;
+    }
 
     $scope.erro = "";
 
@@ -300,6 +326,22 @@ app.controller('PerfilController', ["$scope", "$http", function($scope, $http) {
   $scope.email = $scope.user.email;
 }]);
 
+app.controller('AdminController', ["$scope", "$http", function($scope, $http) {
+
+  $scope.inserirPalavra = function() {
+    var palavra = $scope.palavra.toLowerCase().split(' ', 1)[0];
+    if (palavra.length == 0) return;
+    $http.post('/api/palavra', {
+      palavra: palavra
+    }).then(function(response) {
+      $scope.palavra = "";
+    }, function(err) {
+      $scope.palavra = "erro";
+    });
+  }
+
+}]);
+
 //#####################################################
 
 app.directive('dadosJogador', function() {
@@ -344,7 +386,7 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
       });
   }
 
-  function login(senha, email) {
+  function login(email, senha) {
     var deferred = $q.defer();
 
     $http.post("/api/login", {
@@ -374,6 +416,7 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
       senha: senha,
       nome: nome
     }).then(function(response) {
+      console.log(response);
       if (response.data.user) {
         user = true;
         deferred.resolve();
@@ -381,6 +424,8 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
         user = false;
         deferred.reject();
       }
+    }, function(error) {
+      deferred.reject();
     });
 
     return deferred.promise;
