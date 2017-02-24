@@ -272,7 +272,7 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($
 
   $scope.buscar = function() {
     $scope.palavrasFiltradas = palavras.filter(function(data) {
-      return (data.nome.startsWith($scope.busca));
+      return (data.nome.indexOf($scope.busca.toLowerCase() > -1));
     });
   }
 }]);
