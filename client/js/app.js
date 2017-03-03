@@ -87,18 +87,14 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
     votos: 0
   };
 
-  if (typeof($scope.user) !== 'undefined') {
-    $scope.metaAvatar = ($scope.user.avatar === 'anonymous');
-
-    $http.get("/api/metaDiaria").then(function(response) {
-      $scope.metaDiaria = response.data[0];
-      $('#myBar').css("width", ($scope.meta.votos * 5) + "%");
-    });
-  }
-
   AuthService.getUserStatus().then(function() {
     if (AuthService.isLoggedIn()) {
       $scope.sugerir = AuthService.getUser().pontos > 499 ? true : false;
+      $scope.metaAvatar = ($scope.user.avatar === 'anonymous');
+      $http.get("/api/metaDiaria").then(function(response) {
+        $scope.metaDiaria = response.data[0];
+        $('#myBar').css("width", ($scope.metaDiaria.votos * 5) + "%");
+      });
     } else {
       $scope.sugerir = false;
     }
