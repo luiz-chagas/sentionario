@@ -87,14 +87,14 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
     votos: 0
   };
 
-  $scope.metaAvatar = ($scope.user.avatar === 'anonymous');
+  if (typeof($scope.user) !== 'undefined') {
+    $scope.metaAvatar = ($scope.user.avatar === 'anonymous');
 
-  $http.get("/api/metaDiaria").then(function(response) {
-    $scope.metaDiaria = response.data[0];
-    $('#myBar').css("width", ($scope.meta.votos * 5) + "%");
-  });
-
-  $scope.metaDiaria = true;
+    $http.get("/api/metaDiaria").then(function(response) {
+      $scope.metaDiaria = response.data[0];
+      $('#myBar').css("width", ($scope.meta.votos * 5) + "%");
+    });
+  }
 
   AuthService.getUserStatus().then(function() {
     if (AuthService.isLoggedIn()) {
