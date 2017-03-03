@@ -12,16 +12,40 @@
     <button ng-click="deslogar()" class="botao logout">Sair</button>
   </div>
 
-  <div class="card center hide" ng-show="logado">
+  <div class="card center" ng-show="logado">
     <div id="meta">
-      <h3>Meta Diária</h3>
-      <div class="info">
-        <div id="myProgress">
-          <div id="myBar">
-            <div id="label">50%</div>
-          </div>
+      <h3>Tarefas</h3>
+      <div class="metas">
+        <div ng-class="{concluido: user.avatar !== 'anonymous'}">
+          <h5><span
+          data-balloon="Troque seu avatar e ganhe 50 pontos!"
+          data-balloon-pos="up"
+          data-balloon-length="medium"
+          class="tooltip">
+          <a href="/perfil">Mudar avatar
+            <span ng-show="user.avatar !== 'anonymous'"><i class="fa fa-check-square"></i></span>
+          </a>
+          </span></h5>
         </div>
-        <h5>Classificações: 5/10</h5>
+      </div>
+      <h3>Tarefas Diárias</h3>
+      <div class="metas">
+        <div ng-class="{concluido: metaDiaria.concluida}">
+          <div id="myProgress" ng-show="!metaDiaria.concluida">
+            <div id="myBar">
+              <div id="label">{{metaDiaria.votos / 20 | percentage:0}}</div>
+            </div>
+          </div>
+          <h5><span
+          data-balloon="Classifique 20 termos hoje e ganhe 100 pontos extras!"
+          data-balloon-pos="up"
+          data-balloon-length="medium"
+          class="tooltip">
+          <a ng-class="{concluido: metaDiaria.concluida}" href="/colaborar">Classificar 20 termos
+            <span ng-show="metaDiaria.concluida"><i class="fa fa-check-square"></i></span>
+          </a>
+          </span></h5>
+        </div>
       </div>
     </div>
   </div>
@@ -30,16 +54,12 @@
     <h3>Sugerir palavra</h3>
     <div class="info">
       <form>
-        Palavra <span
-        data-balloon="Insira palavras em sua forma singular (Ex: Bonita, ao invés de Bonitas)"
-        data-balloon-pos="up"
-        data-balloon-length="medium"
-        class="tooltip">?
+        Palavra <span data-balloon="Insira palavras em sua forma singular (Ex: Bonita, ao invés de Bonitas)" data-balloon-pos="up" data-balloon-length="medium" class="tooltip">?
         </span>
-        <input type="text" ng-disabled="!sugerir"/>
+        <input type="text" ng-disabled="!sugerir" />
         <button class="botao logout" ng-show="sugerir">Sugerir</button>
         <div class="infomsg" ng-show="!sugerir">
-          <span >Você precisa de pelo menos 500 pontos para poder sugerir palavras</span>
+          <span>Você precisa de pelo menos 500 pontos para poder sugerir palavras</span>
         </div>
       </form>
     </div>
@@ -49,7 +69,7 @@
     <div class="cadastroMenu">
       <ul>
         <li><a href="javascript:void(0)" ng-click="reset()" onclick="loginDiv('#login')">Entrar</a></li>
-        <li><a href="javascript:void(0)" ng-click="reset()" onclick="loginDiv('#cadastro')">Cadastre-se</a></li>
+        <li><a href="javascript:void(0)" ng-click="reset()" onclick="loginDiv('#cadastro')">Cadastrar</a></li>
       </ul>
     </div>
     <div id="login" class="fadeIn">

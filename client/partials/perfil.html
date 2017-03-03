@@ -2,30 +2,66 @@
   <div class="eight columns card">
     <div>
       <div>
-        <h2>Editar Perfil</h2>
-      </div>
-      <div>
         <div>
-          <h3>Informacoes Basicas  </h3>
+          <div>
+            <h3 class="clicavel" ng-click="divInformacoes = !divInformacoes;">Informacoes Basicas  </h3>
+          </div>
+          <div ng-show="divInformacoes">
+            <form>
+              Nome<input ng-model="nome" type="text" required oninvalid="this.setCustomValidity('Por favor preencha este campo')" /> Email
+              <input ng-model="email" type="email" required oninvalid="this.setCustomValidity('Por favor preencha este campo')" />
+              <div class="infomsg" ng-show="perfilResult.length">
+                {{perfilResult}}
+              </div>
+              <button ng-click="atualizarPerfil()" class="botao logout">Atualizar Informações</button>
+            </form>
+          </div>
         </div>
-        <form>
-          Nome<input ng-model="nome" type="text" required oninvalid="this.setCustomValidity('Por favor preencha este campo')"/>
-          Email<input ng-model="email" type="email" required oninvalid="this.setCustomValidity('Por favor preencha este campo')"/>
-          <button class="botao logout">Atualizar</button>
-        </form>
         <div>
-          <h3>Seguranca</h3>
+          <div>
+            <h3 class="clicavel" ng-click="divAvatar = !divAvatar">Avatar</h3>
+          </div>
+          <div ng-show="divAvatar">
+            <form>
+              <ul class="avatares">
+                <li>
+                  <img class="avatar-icon" src="images/homem.png"/>
+                  Homem
+                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'homem'" value="homem" name="avatar" />
+                </li>
+                <li>
+                  <img class="avatar-icon" src="images/mulher.png"/>
+                  Mulher
+                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'mulher'" value="mulher" name="avatar" />
+                </li>
+                <li>
+                  <img class="avatar-icon" src="images/professor.png"/>
+                  Professor
+                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'professor'" value="professor" name="avatar" />
+                </li>
+                <li>
+                  <img class="avatar-icon" src="images/shakespeare.png"/>
+                  Shakespeare
+                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'shakespeare'" value="shakespeare" name="avatar" />
+                </li>
+              </ul>
+              <div class="infomsg" ng-show="avatarResult.length">
+                {{avatarResult}}
+              </div>
+              <button ng-click="trocarAvatar()" class="botao logout">Trocar avatar</button>
+            </form>
+          </div>
         </div>
-        Senha atual<input ng-model="senhaAtual" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')"/>
-        Nova senha<input ng-model="novaSenha" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')"/>
-        Confirme nova senha<input ng-model="confirmaNovaSenha" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')"/>
-        <button class="botao logout">Atualizar</button>
         <div>
-          <h3>Conquistas</h3>
+          <div>
+            <h3 class="clicavel" ng-click="divSeguranca = !divSeguranca">Seguranca</h3>
+          </div>
+          <div ng-show="divSeguranca">
+            Senha atual<input ng-model="senhaAtual" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')" /> Nova senha<input ng-model="novaSenha" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')"
+            /> Confirme nova senha<input ng-model="confirmaNovaSenha" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')" />
+            <button class="botao logout">Alterar senha</button>
+          </div>
         </div>
-        <p>
-          Em breve.
-        </p>
       </div>
     </div>
   </div>

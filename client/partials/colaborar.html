@@ -2,8 +2,8 @@
             <div class="eight columns card">
                 <div>
                     <div>
-                        <h2>
-                            Qual sentimento desta palavra <span
+                        <h2 class="h2-colaborar">
+                            Qual sentimento esta palavra desperta <span
                             data-balloon="O importante é o sentimento despertado em você diante desta palavra,
                             idenpendente de seu significado."
                             data-balloon-pos="down"
@@ -13,17 +13,17 @@
                         </h2>
                     </div>
                     <div class='card'>
-                        <h2 id="palavra" class="palavra azul" ng-class="{disabled: disabled}"> {{palavra.nome}}
+                        <h2 id="palavra" class="palavra" ng-class="{disabled: disabled}"> {{palavra.nome}}
                         </h2>
                         <div id="slider">
                             <div class='row'>
-                                <div class="one columns stickerL">
+                                <div class="one columns stickerL hide-mobile">
                                     -
                                 </div>
                                 <div class="ten columns rslider">
                                     <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
                                 </div>
-                                <div class="one columns stickerR">
+                                <div class="one columns stickerR hide-mobile">
                                     +
                                 </div>
                             </div>

@@ -30,6 +30,11 @@ module.exports = mydb.define("usuario", {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
     allowNull: false
+  },
+  avatar: {
+    type: Sequelize.STRING,
+    defaultValue: "anonymous",
+    allowNull: false
   }
 }, {
   tableName: 'usuario'

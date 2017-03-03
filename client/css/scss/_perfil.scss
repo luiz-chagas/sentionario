@@ -1,0 +1,25 @@
+.avatares {
+    li {
+        list-style: none;
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+        input{
+          margin: 0 auto;
+          display: block;
+        }
+    }
+}
+
+.avatar-icon{
+  max-width: 60px;
+}
+
+.metas a{
+  text-decoration: none;
+  color: inherit;
+}
+
+.metas .concluido a{
+  color: #47a147;
+}

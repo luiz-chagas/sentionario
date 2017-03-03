@@ -862,12 +862,19 @@ h5,
 h6 {
   font-family: "Arial", sans-serif; }
 
+.clicavel {
+  cursor: pointer; }
+
 .logo {
   font-family: serif;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  margin-right: 10px;
   padding: 0;
-  display: inline-block; }
+  display: inline-block;
+  font-size: 200%; }
+  .logo a {
+    text-decoration: none;
+    color: inherit; }
 
 footer {
   text-align: center; }
@@ -1030,7 +1037,8 @@ p {
     color: inherit; }
 
 .botao {
-  padding: 0; }
+  padding: 0;
+  margin-top: 5px; }
   .botao:focus, .botao:hover {
     color: white; }
 
@@ -1039,15 +1047,16 @@ p {
   font-size: 12px;
   letter-spacing: 1px;
   text-decoration: none;
-  background-color: #06425C;
-  color: #F2F2F2;
+  background-color: #F2F2F2;
+  color: #06425C;
   transition: 1s;
   border: 1px solid #F2F2F2;
+  border-radius: 10%;
   margin-left: 30px;
   padding: 5px; }
   .minibotao:hover {
-    color: #06425C;
-    background-color: #F2F2F2;
+    color: #F2F2F2;
+    background-color: #06425C;
     transition: 0.4s; }
 
 .direita {
@@ -1077,7 +1086,7 @@ p {
 
 #myBar {
   position: absolute;
-  width: 50%;
+  width: 0%;
   height: 100%;
   background-color: #06425C; }
 
@@ -1264,6 +1273,9 @@ output {
 .sidebar h3 {
   text-align: center; }
 
+.h2-colaborar {
+  font-size: 30px; }
+
 .palavra {
   text-transform: capitalize; }
 
@@ -1286,3 +1298,22 @@ output {
   width: 10%;
   color: red;
   padding-top: 10px; }
+
+.avatares li {
+  list-style: none;
+  display: inline-block;
+  width: 100px;
+  text-align: center; }
+  .avatares li input {
+    margin: 0 auto;
+    display: block; }
+
+.avatar-icon {
+  max-width: 60px; }
+
+.metas a {
+  text-decoration: none;
+  color: inherit; }
+
+.metas .concluido a {
+  color: #47a147; }

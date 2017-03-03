@@ -1,14 +1,12 @@
 <div class="container card">
   <div class="principal">
-    <h2>
-                Sentionário
-            </h2>
+    <h2>Sentionario</h2>
     <div class='buscar'>
-      <input id="consultar" type="text" placeholder="Consultar palavra" ng-model="busca" required>
+      <input id="consultar" type="text" placeholder="Buscar palavra" ng-model="busca" required>
       <a id="btnBuscar" class="btnBuscar card-hover" ng-click="buscar()">&nbsp;</a>
       </input>
     </div>
-    <div class="bottomUp resultadoBusca" ng-repeat="palavra in palavrasFiltradas | orderBy: 'nome' | limitTo:6">
+    <div class="bottomUp resultadoBusca" ng-repeat="palavra in palavrasFiltradas | orderBy: 'nome' | limitTo:20">
       <div class="resultado card">
         <div class="row">
           <div class="six columns">
@@ -30,7 +28,11 @@
         <div class="row">
           <div class="dadosClassificacao six columns">
             <p>Quantidade de classificações: {{palavra.qtdVotos}}</p>
-            <div class="ct-chart ct-major-second" ng-show="palavra.qtdVotos" data-ng-init="loadGraph(palavra)" ng-class="palavra.nome"></div>
+            <div ng-show="palavra.qtdVotos">
+              <div class="ct-chart" ng-class="palavra.nome">
+                <a ng-click="loadGraph(palavra)" class="button">Ver distribuição de classificações</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

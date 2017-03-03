@@ -11,13 +11,20 @@ h5,
 h6 {
     font-family: "Arial", sans-serif;
 }
-
+.clicavel{
+  cursor: pointer;
+}
 .logo {
     font-family: serif;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-right: 10px;
     padding: 0;
     display: inline-block;
+    font-size: 200%;
+    a{
+      text-decoration: none;
+      color: inherit;
+    }
 }
 
 footer {
@@ -240,7 +247,7 @@ p {
 .botao {
     @extend .card-hover;
     padding: 0;
-
+    margin-top: 5px;
     &:focus,
     &:hover {
         color: white;
@@ -252,16 +259,17 @@ p {
     font-size: 12px;
     letter-spacing: 1px;
     text-decoration: none;
-    background-color: $pri-color;
-    color: $bg-color;
+    background-color: $bg-color;
+    color: $pri-color;
     transition: 1s;
     border: 1px solid $bg-color;
+    border-radius: 10%;
     margin-left: 30px;
     padding: 5px;
 
     &:hover {
-        color: $pri-color;
-        background-color: $bg-color;
+        color: $bg-color;
+        background-color: $pri-color;
         transition: 0.4s;
     }
 }
@@ -299,7 +307,7 @@ p {
 
 #myBar {
     position: absolute;
-    width: 50%;
+    width: 0%;
     height: 100%;
     background-color: $pri-color;
 }

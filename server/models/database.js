@@ -5,7 +5,9 @@ var mydb = new Sequelize(config.database, config.username, config.password, conf
 var Palavra = require('./palavra.js');
 var Voto = require('./votos.js');
 var User = require('./user.js');
+var MetaDiaria = require('./metaDiaria.js')
 
 Palavra.sync();
 User.sync();
 Voto.sync();
+MetaDiaria.sync();

@@ -5,6 +5,7 @@ var router = express.Router();
 var User = require('../models/user.js');
 var Palavra = require('../models/palavra.js');
 var Voto = require('../models/votos.js');
+var MetaDiaria = require('../models/metaDiaria.js');
 var pg = require('pg');
 var client = new pg.Client();
 var passport = require('../middleware/auth.js');
@@ -36,7 +37,7 @@ router.post('/palavra', function(req, res, next) {
         return res.status(500).json({
           status: "Erro do sistema"
         });
-      })
+      });
     }
   }, function(erro) {
     return res.status(500).json({
@@ -45,7 +46,7 @@ router.post('/palavra', function(req, res, next) {
   });
 });
 
-router.post('/voto', (req, res, next) => {
+router.post('/voto', function(req, res, next) {
   var palavraId = req.body.palavraId;
   var userId = req.body.userId;
   var valor = req.body.valor;
@@ -101,12 +102,27 @@ router.post('/voto', (req, res, next) => {
         User.findById(voto.id_usuario)
           .then(function(user) {
             user.set("pontos", user.pontos + 5);
-            user.save();
-            res.status(200).json({
-              status: 'Voto computado com sucesso'
+            MetaDiaria.findOne({
+              where: {
+                id_usuario: user.id
+              }
+            }).then(function(meta) {
+              if (!meta.concluida) {
+                meta.votos = meta.votos + 1;
+                if (meta.votos == 20) {
+                  meta.concluida = true;
+                  user.set("pontos", user.pontos + 100);
+                }
+                meta.save();
+              }
+              user.save().then(function() {
+                return res.status(200).json({
+                  status: 'Voto computado com sucesso'
+                });
+              })
             });
-          })
-      })
+          });
+      });
   });
 });
 
@@ -146,11 +162,11 @@ router.post('/cadastro', function(req, res, next) {
             });
           });
         })(req, res, next);
-      })
+      });
     } else {
       res.send("Usuario ja existe");
     }
-  })
+  });
 });
 
 router.post('/login', function(req, res, next) {
@@ -178,6 +194,46 @@ router.post('/login', function(req, res, next) {
   })(req, res, next);
 });
 
+router.post('/avatar', function(req, res) {
+  User.findById(req.user.id)
+    .then(function(user) {
+      if (user.avatar === 'anonymous') {
+        user.set("pontos", user.pontos + 50);
+      }
+      user.set("avatar", req.body.avatar);
+      user.save()
+        .then(function() {
+          res.status(200).json({
+            user: user,
+            status: "Avatar atualizado!"
+          });
+        });
+    }, function() {
+      return res.status(301).json({
+        status: 'Favor efetuar login'
+      });
+    });
+});
+
+router.post('/perfil', function(req, res) {
+  User.findById(req.user.id)
+    .then(function(user) {
+      user.set("nome", req.body.nome);
+      user.set("email", req.body.email);
+      user.save()
+        .then(function() {
+          res.status(200).json({
+            status: "Perfil atualizado!",
+            user: user
+          });
+        })
+    }, function() {
+      return res.status(500).json({
+        status: 'Erro interno'
+      });
+    });
+});
+
 router.get('/ranking', function(req, res) {
   User.findAll({
     limit: 10,
@@ -186,7 +242,7 @@ router.get('/ranking', function(req, res) {
     ]
   }).then(function(users) {
     return res.status(200).json(users);
-  })
+  });
 });
 
 router.get('/logout', function(req, res) {
@@ -206,6 +262,33 @@ router.get('/user', function(req, res) {
     logado: true,
     user: req.user.dataValues
   });
+});
+
+router.get('/metaDiaria', function(req, res) {
+  if (!req.isAuthenticated()) {
+    return res.status(301).json({
+      status: "Favor realizar login"
+    });
+  } else {
+    MetaDiaria.findAll({
+      where: {
+        id_usuario: req.user.id,
+        dia: new Date().getDate(),
+        mes: new Date().getMonth(),
+        ano: new Date().getYear()
+      }
+    }).then(function(meta) {
+      if (!meta.length) {
+        MetaDiaria.create({
+          id_usuario: req.user.id
+        }).then(function(newmeta) {
+          return res.status(200).json(newmeta);
+        });
+      } else {
+        return res.status(200).json(meta);
+      }
+    });
+  }
 });
 
 router.get('/estatistica', function(req, res) {
@@ -235,9 +318,9 @@ router.get('/estatistica', function(req, res) {
               return res.status(200).json({
                 stats
               });
-            })
-          })
-        })
+            });
+          });
+        });
     });
 });
 
