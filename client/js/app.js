@@ -13,6 +13,7 @@ app.run(function($rootScope, $location, $route, AuthService) {
         } else {
           $rootScope.logado = true;
           $rootScope.user = AuthService.getUser();
+          $rootScope.metaDiaria = AuthService.getMeta();
         }
       }).then(function() {
         if (next.restricted && !$rootScope.logado) {
@@ -83,18 +84,11 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
       });
   };
 
-  $scope.metaDiaria = {
-    votos: 0
-  };
-
   AuthService.getUserStatus().then(function() {
     if (AuthService.isLoggedIn()) {
       $scope.sugerir = AuthService.getUser().pontos > 499 ? true : false;
       $scope.metaAvatar = ($scope.user.avatar === 'anonymous');
-      $http.get("/api/metaDiaria").then(function(response) {
-        $scope.metaDiaria = response.data[0];
-        $('#myBar').css("width", ($scope.metaDiaria.votos * 5) + "%");
-      });
+      $('#myBar').css("width", ($scope.metaDiaria.votos * 5) + "%");
     } else {
       $scope.sugerir = false;
     }
@@ -157,17 +151,22 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
   };
   $scope.envia = function() {
     $scope.disabled = true;
-    var data = JSON.stringify({
+    var data = {
       palavraId: $scope.palavra.id,
-      userId: AuthService.getUser().id,
+      userId: $scope.user.id,
       valor: $scope.slider.value
-    });
+    };
     $scope.palavra.nome = "Carregando...";
     $http.post("/api/voto", data)
-      .then(function() {
-        $route.reload();
+      .then(function(response) {
+        $scope.user = response.data.user;
+        $scope.metaDiaria = response.data.meta;
+        $('#myBar').animate({
+          width: ($scope.metaDiaria.votos * 5) + "%"
+        });
+        setPalavra();
       });
-  }
+  };
   $scope.slider = {
     value: 5,
     options: {
@@ -197,6 +196,8 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
     i = Math.floor(i);
     $scope.palavra.nome = palavras[i].nome;
     $scope.palavra.id = palavras[i].id;
+    $scope.slider.value = 5;
+    update();
     $scope.disabled = false;
   };
 }]);
@@ -223,7 +224,7 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($
   ];
 
   $scope.loadGraph = function(palavra) {
-    if (palavra.qtdVotos == 0) return;
+    if (palavra.qtdVotos === 0) return;
     $("." + palavra.nome).html("");
     $("." + palavra.nome).addClass("ct-major-second");
     $timeout(function() {
@@ -257,17 +258,17 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($
         }
       });
     }, 100);
-  }
+  };
 
   $scope.smileySrc = function(valor, votos) {
-    if (votos == 0) return "../images/smiley5.png";
+    if (votos === 0) return "../images/smiley5.png";
     return "../images/smiley" + Math.round(valor / votos) + ".png";
   };
 
   $scope.positividade = function(valor, votos) {
-    if (votos == 0) return 0.5;
+    if (votos === 0) return 0.5;
     return ((valor / votos) - 1) / 8;
-  }
+  };
 
   $scope.sentimento = function(valor, votos) {
     if (votos > 0) {
@@ -275,13 +276,13 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($
     } else {
       return $scope.estados[4];
     }
-  }
+  };
 
   $scope.buscar = function() {
     $scope.palavrasFiltradas = palavras.filter(function(data) {
       return (data.nome.indexOf($scope.busca.toLowerCase()) > -1);
     });
-  }
+  };
 }]);
 
 app.controller('RankingController', ["$scope", "$http", function($scope, $http) {
@@ -293,7 +294,8 @@ app.controller('RankingController', ["$scope", "$http", function($scope, $http) 
   });
 
   $http.get("/api/estatistica").then(function(response) {
-    $scope.stats = response.data.stats;
+    console.log(response);
+    $scope.stats = response.data;
     $scope.loadGraph();
   });
 
@@ -316,7 +318,7 @@ app.controller('RankingController', ["$scope", "$http", function($scope, $http) 
     };
 
     var sum = function(a, b) {
-      return a + b
+      return a + b;
     };
 
     var options = {
@@ -325,7 +327,7 @@ app.controller('RankingController', ["$scope", "$http", function($scope, $http) 
     };
 
     new Chartist.Pie('.graphPalavras', data, options);
-  }
+  };
 }]);
 
 app.controller('PerfilController', ["$scope", "$http", "$route", function($scope, $http, $route) {
@@ -371,7 +373,7 @@ app.controller('PerfilController', ["$scope", "$http", "$route", function($scope
 app.controller('AdminController', ["$scope", "$http", function($scope, $http) {
   $scope.inserirPalavra = function() {
     var palavra = $scope.palavra.toLowerCase().split(' ', 1)[0];
-    if (palavra.length == 0) return;
+    if (palavra.length === 0) return;
     $http.post('/api/palavra', {
       palavra: palavra
     }).then(function(response) {
@@ -379,7 +381,7 @@ app.controller('AdminController', ["$scope", "$http", function($scope, $http) {
     }, function(err) {
       $scope.palavra = "erro";
     });
-  }
+  };
 }]);
 
 //#####################################################
@@ -402,8 +404,9 @@ app.filter('percentage', ['$filter', function($filter) {
 //#####################################################
 
 app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $http) {
-  var user = null;
-  var userObject = null;
+  let user = null;
+  let userObject = null;
+  let metaObject = null;
 
   function isLoggedIn() {
     if (user) {
@@ -413,17 +416,26 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
   }
 
   function getUserStatus() {
-    return $http.get("/api/user")
+    var deferred = $q.defer();
+    $http.get("/api/user")
       .then(function(response) {
         if (response.data.logado) {
           user = true;
           userObject = response.data.user;
+          $http.get("/api/metaDiaria").then(function(response) {
+            metaObject = response.data[0];
+            deferred.resolve();
+          });
         } else {
           user = false;
+          deferred.resolve();
         }
       }, function(error) {
         user = false;
+        deferred.reject();
       });
+
+    return deferred.promise;
   }
 
   function login(email, senha) {
@@ -489,12 +501,17 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
     return userObject;
   }
 
+  function getMeta() {
+    return metaObject;
+  }
+
   return ({
     isLoggedIn: isLoggedIn,
     getUserStatus: getUserStatus,
     login: login,
     logout: logout,
     register: register,
-    getUser: getUser
+    getUser: getUser,
+    getMeta: getMeta
   });
 }]);

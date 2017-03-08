@@ -1,4 +1,6 @@
-"use strict";
+(function() {
+  "use strict";
+})();
 
 var express = require('express');
 var router = express.Router();
@@ -10,7 +12,7 @@ var pg = require('pg');
 var client = new pg.Client();
 var passport = require('../middleware/auth.js');
 
-router.get('/palavras', (req, res, next) => {
+router.get('/palavras', function(req, res, next) {
   Palavra.findAll().then(function(palavras) {
     return res.status(200).json(palavras);
   });
@@ -104,7 +106,10 @@ router.post('/voto', function(req, res, next) {
             user.set("pontos", user.pontos + 5);
             MetaDiaria.findOne({
               where: {
-                id_usuario: user.id
+                id_usuario: user.id,
+                dia: new Date().getDate(),
+                mes: new Date().getMonth(),
+                ano: new Date().getYear()
               }
             }).then(function(meta) {
               if (!meta.concluida) {
@@ -117,9 +122,11 @@ router.post('/voto', function(req, res, next) {
               }
               user.save().then(function() {
                 return res.status(200).json({
-                  status: 'Voto computado com sucesso'
+                  status: 'Voto computado com sucesso',
+                  user: user,
+                  meta: meta
                 });
-              })
+              });
             });
           });
       });
@@ -226,7 +233,7 @@ router.post('/perfil', function(req, res) {
             status: "Perfil atualizado!",
             user: user
           });
-        })
+        });
     }, function() {
       return res.status(500).json({
         status: 'Erro interno'
@@ -315,9 +322,7 @@ router.get('/estatistica', function(req, res) {
               }
             }).then(function(palavras) {
               stats.palavrasNeg = palavras.length;
-              return res.status(200).json({
-                stats
-              });
+              return res.status(200).json(stats);
             });
           });
         });
