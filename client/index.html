@@ -26,21 +26,28 @@
                 <h1 class="logo">Sentionário</h1>
                 <input id="busca" class="input" type="text" name="search" placeholder="Pesquisar palavra...">
             </div>-->
-      <ul class="u-cf hide-mobile">
+      <ul class="u-cf hide-mobile menu">
         <li>
           <a href="/" class="logo w3-hover-blue">Sentionario</a>
         </li>
-        <li ng-show="logado">
-          <a href="colaborar" class="w3-hover-blue">Classificar palavras</a>
+        <li ng-show="logado" class="">
+          <a href="colaborar" class="w3-hover-blue menu-colaborar">Classificar palavras</a>
         </li>
         <li>
-          <a href="consultar" class="w3-hover-blue">Consultar Sentimento</a>
+          <a href="consultar" class="w3-hover-blue menu-consultar">Consultar Sentimento</a>
         </li>
         <li ng-show="logado" class="hide-mobile">
-          <a href="estatisticas" class="w3-hover-blue">Estatisticas</a>
+          <a href="estatisticas" class="w3-hover-blue menu-estatisticas">Estatisticas</a>
         </li>
         <li>
-          <a href="download" class="w3-hover-blue">Download</a>
+          <a href="download" class="w3-hover-blue menu-download">Download</a>
+        </li>
+        <li class="settings clicavel" ng-show="logado">
+          <img class="card-hover" ng-src="{{'images/' + user.avatar + '.png'}}" alt="Menu de perfil">
+          <div class="dropdown">
+            <a href="perfil">Editar Perfil</a>
+            <a ng-click="deslogar()" href="#">Sair</a>
+          </div>
         </li>
         <!--
                 <li class="hide-mobile">
@@ -64,7 +71,7 @@
   </nav>
 
   <!-- First Grid -->
-  <div ng-view></div>
+  <div ng-view class="fade"></div>
 
   <!-- Footer -->
   <footer class="container footer">
@@ -81,10 +88,15 @@
   </footer>
   <!-- SCRIPTS -->
   <script src="js/jquery-3.1.1.min.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
   <script src="js/chartist.min.js"></script>
+  <script src="js/chartist-plugin-legend.js"></script>
   <script src="js/angular.min.js"></script>
   <script src="js/angular-route.min.js"></script>
+  <script src="js/angular-animate.min.js"></script>
   <script src="js/rzslider.min.js"></script>
   <script src="js/functions.js"></script>
   <script src="js/app.js"></script>
 </body>
+
+</html>

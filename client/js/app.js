@@ -1,11 +1,29 @@
 // Iniciando app
 
-var app = angular.module('sentionario', ['rzModule', 'ngRoute']);
+var app = angular.module('sentionario', ['rzModule', 'ngRoute', 'ngAnimate']);
 
 // Middleware
 
 app.run(function($rootScope, $location, $route, AuthService) {
+  $rootScope.deslogar = function() {
+    AuthService.logout()
+      .then(function() {
+        $location.path('/');
+        $route.reload();
+      });
+  };
+
   $rootScope.$on('$routeChangeStart', function(event, next, current) {
+    setMenu(next.$$route.originalPath);
+
+    function setMenu(path) {
+      path = path.substring(1); //Remover "/"
+      $('.menu li a').each(function(ind, elem) {
+        $(elem).removeClass("ativo");
+      });
+      $('.menu-' + path).addClass("ativo");
+    }
+
     AuthService.getUserStatus()
       .then(function() {
         if (!AuthService.isLoggedIn()) {
@@ -76,14 +94,6 @@ app.config(function($routeProvider, $locationProvider) {
 
 app.controller('HomeController', ["$scope", "$location", "AuthService", "$route", "$http", function($scope, $location, AuthService, $route, $http) {
 
-  $scope.deslogar = function() {
-    AuthService.logout()
-      .then(function() {
-        $location.path('/');
-        $route.reload();
-      });
-  };
-
   AuthService.getUserStatus().then(function() {
     if (AuthService.isLoggedIn()) {
       $scope.sugerir = AuthService.getUser().pontos > 499 ? true : false;
@@ -138,7 +148,9 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
 
 app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthService", "$route", function($scope, $http, $timeout, AuthService, $route) {
   var palavras = [];
-  $http.get("/api/palavras").then(function(response) {
+
+  $http.get("/api/palavras").
+  then(function(response) {
     palavras = response.data;
     setPalavra();
   });
@@ -159,11 +171,15 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
     $scope.palavra.nome = "Carregando...";
     $http.post("/api/voto", data)
       .then(function(response) {
+        $('#pontos').prop('number', $scope.user.pontos);
         $scope.user = response.data.user;
+        $('#pontos').animateNumber({
+          number: $scope.user.pontos
+        }, 300);
         $scope.metaDiaria = response.data.meta;
         $('#myBar').animate({
           width: ($scope.metaDiaria.votos * 5) + "%"
-        });
+        }, 300);
         setPalavra();
       });
   };
@@ -208,7 +224,6 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($
   $http.get("/api/palavras").then(function(response) {
     palavras = response.data;
   });
-
   $scope.busca = "";
   $scope.palavrasFiltradas = [];
   $scope.estados = [
@@ -294,14 +309,16 @@ app.controller('RankingController', ["$scope", "$http", function($scope, $http) 
   });
 
   $http.get("/api/estatistica").then(function(response) {
-    console.log(response);
     $scope.stats = response.data;
     $scope.loadGraph();
   });
 
   $scope.loadGraph = function() {
     var data = {
-      labels: ['Positivo', 'Negativo', 'Neutro'],
+      labels: ['Positivo (' + $scope.stats.palavrasPos + ')',
+        'Negativo (' + $scope.stats.palavrasNeg + ')',
+        'Neutro (' + ($scope.stats.palavras - $scope.stats.palavrasNeg - $scope.stats.palavrasPos) + ')'
+      ],
       series: [{
           value: $scope.stats.palavrasPos,
           className: 'pos-chart'
@@ -322,8 +339,13 @@ app.controller('RankingController', ["$scope", "$http", function($scope, $http) 
     };
 
     var options = {
-      chartPadding: 20,
-      labelOffset: 50
+      chartPadding: 10,
+      labelOffset: 20,
+      plugins: [
+        Chartist.plugins.legend({
+          position: 'bottom'
+        })
+      ]
     };
 
     new Chartist.Pie('.graphPalavras', data, options);
@@ -331,6 +353,7 @@ app.controller('RankingController', ["$scope", "$http", function($scope, $http) 
 }]);
 
 app.controller('PerfilController', ["$scope", "$http", "$route", function($scope, $http, $route) {
+
   $scope.nome = $scope.user.nome;
   $scope.email = $scope.user.email;
   $scope.avatar = $scope.user.avatar;
@@ -383,6 +406,8 @@ app.controller('AdminController', ["$scope", "$http", function($scope, $http) {
     });
   };
 }]);
+
+app.controller('LogoutController', ["$scope", 'AuthService', function($scope, AuthService) {}]);
 
 //#####################################################
 
@@ -515,3 +540,18 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
     getMeta: getMeta
   });
 }]);
+
+
+//#################
+
+$('.settings').click(function() {
+  $('.dropdown').toggleClass('show');
+})
+
+$(window).on('load', function() {
+  switch (window.location.pathname) {
+    case '/estatisticas':
+      $('.menu-estatistica').toggleClass('ativo');
+      break;
+  }
+});

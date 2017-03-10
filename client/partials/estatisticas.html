@@ -13,13 +13,15 @@
       <div class="six columns info">
         <h3>Informações sobre a plataforma</h3>
         <div class='plataforma'>
-            Total de palavras: {{stats.palavras}}<br />
-            Palavras positivas: {{stats.palavrasPos}}<br />
-            Palavras negativas: {{stats.palavrasNeg}}
+            Esta plataforma possui um total de <span class="big">{{stats.palavras}}</span> palavras.<br />
+            Destas, <span class="big">{{stats.palavrasPos}}</span> palavras são postivas,
+            e <span class="big">{{stats.palavrasNeg}}</span> são negativas.<br />
+            Se você fez as contas certas, <span class="big">{{stats.palavras -
+              stats.palavrasPos - stats.palavrasNeg}}</span> palavras são neutras.<br />
+            Estas classificações foram feitas pelos importantes <span class="big">{{stats.usuarios}}</span>
+            usuários!
+
             <div class="ct-chart ct-major-second graphPalavras"></div>
-        </div>
-        <div class='plataforma'>
-            Total de usuarios: {{stats.usuarios}}
         </div>
       </div>
     </div>

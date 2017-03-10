@@ -112,21 +112,38 @@ router.post('/voto', function(req, res, next) {
                 ano: new Date().getYear()
               }
             }).then(function(meta) {
-              if (!meta.concluida) {
-                meta.votos = meta.votos + 1;
-                if (meta.votos == 20) {
-                  meta.concluida = true;
-                  user.set("pontos", user.pontos + 100);
-                }
-                meta.save();
-              }
-              user.save().then(function() {
-                return res.status(200).json({
-                  status: 'Voto computado com sucesso',
-                  user: user,
-                  meta: meta
+              if (!meta) {
+                MetaDiaria.create({
+                  id_usuario: req.user.id
+                }).then(function(newmeta) {
+                  meta = newmeta;
+                  meta.votos = meta.votos + 1;
+                  meta.save();
+                  user.save().then(function() {
+                    return res.status(200).json({
+                      status: 'Voto computado com sucesso',
+                      user: user,
+                      meta: meta
+                    });
+                  });
                 });
-              });
+              } else {
+                if (!meta.concluida) {
+                  meta.votos = meta.votos + 1;
+                  if (meta.votos == 20) {
+                    meta.concluida = true;
+                    user.set("pontos", user.pontos + 100);
+                  }
+                  meta.save();
+                }
+                user.save().then(function() {
+                  return res.status(200).json({
+                    status: 'Voto computado com sucesso',
+                    user: user,
+                    meta: meta
+                  });
+                });
+              }
             });
           });
       });
