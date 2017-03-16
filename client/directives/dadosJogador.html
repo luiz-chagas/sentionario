@@ -1,30 +1,28 @@
 <div ng-controller="HomeController">
   <div class='card' ng-show="logado">
-    <h3>{{user.nome}}<a href="perfil" class="minibotao">Editar</a></h3>
-    <div class="center info">
-      <p>
-        <span id="pontos">{{user.pontos}}</span> pontos
-      </p>
-    </div>
-    <h3>Meta Diária</h3>
-    <div class="metas center">
-      <div ng-class="{concluido: metaDiaria.concluida}">
-        <div id="myProgress" ng-show="!metaDiaria.concluida">
-          <div id="myBar">
-            <div id="label">{{metaDiaria.votos / 20 | percentage:0}}</div>
+    <h3 class='username'><a href="perfil">{{user.nome.split(' ')[0]}} <span class="smaller">(<span id="pontos">{{user.pontos}}</span> pontos)</span></a></h3>
+    <div class="info center">
+      <h4>Meta Diária</h4>
+      <div class="metas center">
+        <div ng-class="{concluido: metaDiaria.concluida}">
+          <h5><span
+          data-balloon="Classifique 20 termos hoje e ganhe 100 pontos extras!"
+          data-balloon-pos="up"
+          data-balloon-length="medium"
+          class="tooltip">
+          <a ng-class="{concluido: metaDiaria.concluida}" href="/colaborar">Classificar 20 termos
+            <span ng-show="metaDiaria.concluida"><i class="fa fa-check-square"></i></span>
+          </a>
+          </span></h5>
+          <div id="myProgress" ng-show="!metaDiaria.concluida">
+            <div id="myBar">
+              <div id="label">{{metaDiaria.votos / 20 | percentage:0}}</div>
+            </div>
           </div>
         </div>
-        <h5><span
-        data-balloon="Classifique 20 termos hoje e ganhe 100 pontos extras!"
-        data-balloon-pos="up"
-        data-balloon-length="medium"
-        class="tooltip">
-        <a ng-class="{concluido: metaDiaria.concluida}" href="/colaborar">Classificar 20 termos
-          <span ng-show="metaDiaria.concluida"><i class="fa fa-check-square"></i></span>
-        </a>
-        </span></h5>
       </div>
     </div>
+
   </div>
 
   <div class='card' ng-show="logado">

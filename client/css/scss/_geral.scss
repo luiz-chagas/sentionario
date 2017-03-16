@@ -322,24 +322,9 @@ p {
     }
 }
 
-.minibotao {
-    cursor: pointer;
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-decoration: none;
-    background-color: $bg-color;
-    color: $pri-color;
-    transition: 1s;
-    border: 1px solid $bg-color;
-    border-radius: 10%;
-    margin-left: 30px;
-    padding: 5px;
-
-    &:hover {
-        color: $bg-color;
-        background-color: $pri-color;
-        transition: 0.4s;
-    }
+.username a{
+  text-decoration: none;
+  color: inherit;
 }
 
 .direita {
@@ -477,6 +462,10 @@ output {
 
 .small {
     font-size: 80%;
+}
+
+.smaller{
+  font-size: 60%;
 }
 
 .dadosClassificacao {

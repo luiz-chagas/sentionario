@@ -43,7 +43,7 @@
           <a href="download" class="w3-hover-blue menu-download">Download</a>
         </li>
         <li class="settings clicavel" ng-show="logado">
-          <img class="card-hover" ng-src="{{'images/' + user.avatar + '.png'}}" alt="Menu de perfil">
+          <img id="userAvatar" class="card-hover" ng-src="{{'images/' + user.avatar + '.png'}}" alt="Menu de perfil">
           <div class="dropdown">
             <a href="perfil">Editar Perfil</a>
             <a ng-click="deslogar()" href="#">Sair</a>

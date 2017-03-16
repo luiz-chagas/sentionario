@@ -4,28 +4,28 @@ var app = angular.module('sentionario', ['rzModule', 'ngRoute', 'ngAnimate']);
 
 // Middleware
 
-app.run(function($rootScope, $location, $route, AuthService) {
-  $rootScope.deslogar = function() {
+app.run(function ($rootScope, $location, $route, AuthService) {
+  $rootScope.deslogar = function () {
     AuthService.logout()
-      .then(function() {
+      .then(function () {
         $location.path('/');
         $route.reload();
       });
   };
 
-  $rootScope.$on('$routeChangeStart', function(event, next, current) {
+  $rootScope.$on('$routeChangeStart', function (event, next, current) {
     setMenu(next.$$route.originalPath);
 
     function setMenu(path) {
       path = path.substring(1); //Remover "/"
-      $('.menu li a').each(function(ind, elem) {
+      $('.menu li a').each(function (ind, elem) {
         $(elem).removeClass("ativo");
       });
       $('.menu-' + path).addClass("ativo");
     }
 
     AuthService.getUserStatus()
-      .then(function() {
+      .then(function () {
         if (!AuthService.isLoggedIn()) {
           $rootScope.logado = false;
         } else {
@@ -33,7 +33,7 @@ app.run(function($rootScope, $location, $route, AuthService) {
           $rootScope.user = AuthService.getUser();
           $rootScope.metaDiaria = AuthService.getMeta();
         }
-      }).then(function() {
+      }).then(function () {
         if (next.restricted && !$rootScope.logado) {
           $location.path('/');
         } else if (next.admin && !$rootScope.user.admin) {
@@ -45,7 +45,7 @@ app.run(function($rootScope, $location, $route, AuthService) {
 
 // Configurando rotas
 
-app.config(function($routeProvider, $locationProvider) {
+app.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/', {
       templateUrl: './partials/home.html',
@@ -92,9 +92,9 @@ app.config(function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-app.controller('HomeController', ["$scope", "$location", "AuthService", "$route", "$http", function($scope, $location, AuthService, $route, $http) {
+app.controller('HomeController', ["$scope", "$location", "AuthService", "$route", "$http", function ($scope, $location, AuthService, $route, $http) {
 
-  AuthService.getUserStatus().then(function() {
+  AuthService.getUserStatus().then(function () {
     if (AuthService.isLoggedIn()) {
       $scope.sugerir = AuthService.getUser().pontos > 499 ? true : false;
       $scope.metaAvatar = ($scope.user.avatar === 'anonymous');
@@ -104,25 +104,25 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
     }
   });
 
-  $scope.reset = function() {
+  $scope.reset = function () {
     $scope.erro = "";
   };
 
-  $scope.logar = function() {
+  $scope.logar = function () {
     $scope.erro = "";
     if ($scope.email === null) {
       $scope.erro = "Preencha email corretamente";
       return;
     }
     AuthService.login($scope.email, $scope.senha)
-      .then(function(response) {
+      .then(function (response) {
         $route.reload();
-      }, function(error) {
+      }, function (error) {
         $scope.erro = "Usuario ou senha invalidos";
       });
   };
 
-  $scope.registrar = function() {
+  $scope.registrar = function () {
     if ($scope.senha != $scope.confirmaSenha) {
       $scope.erro = "Senhas devem ser iguais";
       return;
@@ -133,35 +133,35 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
     }
     $scope.erro = "";
     AuthService.register($scope.nome, $scope.email, $scope.senha)
-      .then(function() {
+      .then(function () {
         AuthService.login($scope.email, $scope.senha)
-          .then(function() {
+          .then(function () {
             $route.reload();
           });
       })
-      .catch(function() {
+      .catch(function () {
         $scope.erro = "Erro ao cadastrar no sistema";
       });
   };
 }]);
 
 
-app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthService", "$route", function($scope, $http, $timeout, AuthService, $route) {
+app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthService", "$route", function ($scope, $http, $timeout, AuthService, $route) {
   var palavras = [];
 
   $http.get("/api/palavras").
-  then(function(response) {
+  then(function (response) {
     palavras = response.data;
     setPalavra();
   });
-  update = function() {
+  update = function () {
     $scope.output = $scope.estados[$scope.slider.value - 1];
     $scope.smiley = "../images/smiley" + $scope.slider.value + ".png";
   };
   $scope.palavra = {
     nome: 'Carregando...'
   };
-  $scope.envia = function() {
+  $scope.envia = function () {
     $scope.disabled = true;
     var data = {
       palavraId: $scope.palavra.id,
@@ -170,7 +170,7 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
     };
     $scope.palavra.nome = "Carregando...";
     $http.post("/api/voto", data)
-      .then(function(response) {
+      .then(function (response) {
         $('#pontos').prop('number', $scope.user.pontos);
         $scope.user = response.data.user;
         $('#pontos').animateNumber({
@@ -207,7 +207,7 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
   ];
   $scope.output = $scope.estados[$scope.slider.value - 1];
   $scope.smiley = "../images/smiley" + $scope.slider.value + ".png";
-  setPalavra = function() {
+  setPalavra = function () {
     var i = Math.random() * palavras.length;
     i = Math.floor(i);
     $scope.palavra.nome = palavras[i].nome;
@@ -218,10 +218,10 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
   };
 }]);
 
-app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($scope, $http, $timeout) {
+app.controller('ConsultarController', ["$scope", "$http", "$timeout", function ($scope, $http, $timeout) {
 
   var palavras = [];
-  $http.get("/api/palavras").then(function(response) {
+  $http.get("/api/palavras").then(function (response) {
     palavras = response.data;
   });
   $scope.busca = "";
@@ -238,11 +238,11 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($
     "Extremamente Positivo"
   ];
 
-  $scope.loadGraph = function(palavra) {
+  $scope.loadGraph = function (palavra) {
     if (palavra.qtdVotos === 0) return;
     $("." + palavra.nome).html("");
     $("." + palavra.nome).addClass("ct-major-second");
-    $timeout(function() {
+    $timeout(function () {
       new Chartist.Bar('.' + palavra.nome, {
         labels: [
           "Extremamente Negativo",
@@ -275,17 +275,17 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($
     }, 100);
   };
 
-  $scope.smileySrc = function(valor, votos) {
+  $scope.smileySrc = function (valor, votos) {
     if (votos === 0) return "../images/smiley5.png";
     return "../images/smiley" + Math.round(valor / votos) + ".png";
   };
 
-  $scope.positividade = function(valor, votos) {
+  $scope.positividade = function (valor, votos) {
     if (votos === 0) return 0.5;
     return ((valor / votos) - 1) / 8;
   };
 
-  $scope.sentimento = function(valor, votos) {
+  $scope.sentimento = function (valor, votos) {
     if (votos > 0) {
       return $scope.estados[Math.round(valor / votos) - 1];
     } else {
@@ -293,31 +293,34 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function($
     }
   };
 
-  $scope.buscar = function() {
-    $scope.palavrasFiltradas = palavras.filter(function(data) {
+  $scope.buscar = function () {
+    $scope.palavrasFiltradas = palavras.filter(function (data) {
       return (data.nome.indexOf($scope.busca.toLowerCase()) > -1);
     });
   };
 }]);
 
-app.controller('RankingController', ["$scope", "$http", function($scope, $http) {
+app.controller('RankingController', ["$scope", "$http", function ($scope, $http) {
   $scope.top10 = [];
   $scope.stats = {};
 
-  $http.get("/api/ranking").then(function(response) {
+  $http.get("/api/ranking").then(function (response) {
     $scope.top10 = response.data;
   });
 
-  $http.get("/api/estatistica").then(function(response) {
+  $http.get("/api/estatistica").then(function (response) {
     $scope.stats = response.data;
     $scope.loadGraph();
   });
 
-  $scope.loadGraph = function() {
-    var data = {
-      labels: ['Positivo (' + $scope.stats.palavrasPos + ')',
-        'Negativo (' + $scope.stats.palavrasNeg + ')',
-        'Neutro (' + ($scope.stats.palavras - $scope.stats.palavrasNeg - $scope.stats.palavrasPos) + ')'
+  $scope.loadGraph = function () {
+    let totalPalavras = $scope.stats.palavras;
+    let positivas = $scope.stats.palavrasPos;
+    let negativas = $scope.stats.palavrasNeg;
+    let data = {
+      labels: ['Positivo (' + Number((positivas / totalPalavras) * 100).toFixed(2) + '%)',
+        'Negativo (' + Number((negativas / totalPalavras) * 100).toFixed(2) + '%)',
+        'Neutro (' + Number(((totalPalavras - positivas - negativas) / totalPalavras) * 100).toFixed(2) + '%)'
       ],
       series: [{
           value: $scope.stats.palavrasPos,
@@ -334,7 +337,7 @@ app.controller('RankingController', ["$scope", "$http", function($scope, $http) 
       ]
     };
 
-    var sum = function(a, b) {
+    var sum = function (a, b) {
       return a + b;
     };
 
@@ -352,7 +355,7 @@ app.controller('RankingController', ["$scope", "$http", function($scope, $http) 
   };
 }]);
 
-app.controller('PerfilController', ["$scope", "$http", "$route", function($scope, $http, $route) {
+app.controller('PerfilController', ["$scope", "$http", "$route", function ($scope, $http, $route) {
 
   $scope.nome = $scope.user.nome;
   $scope.email = $scope.user.email;
@@ -362,7 +365,7 @@ app.controller('PerfilController', ["$scope", "$http", "$route", function($scope
   $scope.divAvatar = true;
   $scope.perfilResult = "";
   $scope.avatarResult = "";
-  $scope.atualizarPerfil = function() {
+  $scope.atualizarPerfil = function () {
     $scope.perfilResult = "";
     if (!$scope.nome.length || !$scope.email.length) {
       return;
@@ -372,12 +375,12 @@ app.controller('PerfilController', ["$scope", "$http", "$route", function($scope
     $http.post('/api/perfil', {
       nome: $scope.nome,
       email: $scope.email
-    }).then(function(response) {
+    }).then(function (response) {
       $scope.user = response.data.user;
       $scope.perfilResult = response.data.status;
     });
   };
-  $scope.trocarAvatar = function() {
+  $scope.trocarAvatar = function () {
     $scope.avatarResult = "";
     if (!$scope.avatarSelecionado.length) {
       return;
@@ -386,32 +389,33 @@ app.controller('PerfilController', ["$scope", "$http", "$route", function($scope
     }
     $http.post('/api/avatar', {
       avatar: $scope.avatarSelecionado
-    }).then(function(response) {
+    }).then(function (response) {
       $scope.user = response.data.user;
       $scope.avatarResult = response.data.status;
+      document.querySelector("#userAvatar").src = 'images/' + $scope.user.avatar + '.png';
     });
   };
 }]);
 
-app.controller('AdminController', ["$scope", "$http", function($scope, $http) {
-  $scope.inserirPalavra = function() {
+app.controller('AdminController', ["$scope", "$http", function ($scope, $http) {
+  $scope.inserirPalavra = function () {
     var palavra = $scope.palavra.toLowerCase().split(' ', 1)[0];
     if (palavra.length === 0) return;
     $http.post('/api/palavra', {
       palavra: palavra
-    }).then(function(response) {
+    }).then(function (response) {
       $scope.palavra = "";
-    }, function(err) {
+    }, function (err) {
       $scope.palavra = "erro";
     });
   };
 }]);
 
-app.controller('LogoutController', ["$scope", 'AuthService', function($scope, AuthService) {}]);
+app.controller('LogoutController', ["$scope", 'AuthService', function ($scope, AuthService) {}]);
 
 //#####################################################
 
-app.directive('dadosJogador', function() {
+app.directive('dadosJogador', function () {
   return {
     restrict: 'E',
     templateUrl: './directives/dadosJogador.html'
@@ -420,15 +424,15 @@ app.directive('dadosJogador', function() {
 
 //#####################################################
 
-app.filter('percentage', ['$filter', function($filter) {
-  return function(input, decimals) {
+app.filter('percentage', ['$filter', function ($filter) {
+  return function (input, decimals) {
     return $filter('number')(input * 100, decimals) + '%';
   };
 }]);
 
 //#####################################################
 
-app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $http) {
+app.factory('AuthService', ['$q', '$timeout', '$http', function ($q, $timeout, $http) {
   let user = null;
   let userObject = null;
   let metaObject = null;
@@ -443,11 +447,11 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
   function getUserStatus() {
     var deferred = $q.defer();
     $http.get("/api/user")
-      .then(function(response) {
+      .then(function (response) {
         if (response.data.logado) {
           user = true;
           userObject = response.data.user;
-          $http.get("/api/metaDiaria").then(function(response) {
+          $http.get("/api/metaDiaria").then(function (response) {
             metaObject = response.data[0];
             deferred.resolve();
           });
@@ -455,7 +459,7 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
           user = false;
           deferred.resolve();
         }
-      }, function(error) {
+      }, function (error) {
         user = false;
         deferred.reject();
       });
@@ -469,7 +473,7 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
     $http.post("/api/login", {
       email: email,
       senha: senha
-    }).then(function(response) {
+    }).then(function (response) {
       if (response.data.user) {
         user = true;
         deferred.resolve();
@@ -477,7 +481,7 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
         user = false;
         deferred.reject();
       }
-    }, function(error) {
+    }, function (error) {
       user = false;
       deferred.reject();
     });
@@ -492,7 +496,7 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
       email: email,
       senha: senha,
       nome: nome
-    }).then(function(response) {
+    }).then(function (response) {
       if (response.data.user) {
         user = true;
         deferred.resolve();
@@ -500,7 +504,7 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
         user = false;
         deferred.reject();
       }
-    }, function(error) {
+    }, function (error) {
       deferred.reject();
     });
 
@@ -511,10 +515,10 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
     var deferred = $q.defer();
 
     $http.get("/api/logout")
-      .then(function(data) {
+      .then(function (data) {
         user = false;
         deferred.resolve();
-      }, function(error) {
+      }, function (error) {
         user = false;
         deferred.reject();
       });
@@ -544,11 +548,16 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function($q, $timeout, $h
 
 //#################
 
-$('.settings').click(function() {
+$('.settings').click(function () {
   $('.dropdown').toggleClass('show');
 })
 
-$(window).on('load', function() {
+$(document).on('click', function (e) {
+  if (e.target.id !== 'userAvatar')
+    $('.dropdown').removeClass('show');
+});
+
+$(window).on('load', function () {
   switch (window.location.pathname) {
     case '/estatisticas':
       $('.menu-estatistica').toggleClass('ativo');

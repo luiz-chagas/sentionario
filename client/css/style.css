@@ -1102,22 +1102,9 @@ p {
   .botao:focus, .botao:hover {
     color: white; }
 
-.minibotao {
-  cursor: pointer;
-  font-size: 12px;
-  letter-spacing: 1px;
+.username a {
   text-decoration: none;
-  background-color: #F2F2F2;
-  color: #06425C;
-  transition: 1s;
-  border: 1px solid #F2F2F2;
-  border-radius: 10%;
-  margin-left: 30px;
-  padding: 5px; }
-  .minibotao:hover {
-    color: #F2F2F2;
-    background-color: #06425C;
-    transition: 0.4s; }
+  color: inherit; }
 
 .direita {
   text-align: right; }
@@ -1226,6 +1213,9 @@ output {
 
 .small {
   font-size: 80%; }
+
+.smaller {
+  font-size: 60%; }
 
 .dadosClassificacao {
   display: inline-block;
