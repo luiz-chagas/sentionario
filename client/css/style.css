@@ -1254,13 +1254,28 @@ output {
 .ct-label {
   font-size: 12px; }
 
-.rank li:nth-child(1) {
+.grey {
+  margin-top: 20px;
+  color: grey; }
+
+.separator::after {
+  content: '';
+  height: 3px;
+  width: 100%;
+  background-color: #06425C;
+  display: block;
+  margin-bottom: 10px; }
+
+.neutro {
+  background: transparent !important; }
+
+.rank li:nth-child(1), .gold {
   background-color: #FFDF00; }
 
-.rank li:nth-child(2) {
+.rank li:nth-child(2), .silver {
   background-color: #C0C0C0; }
 
-.rank li:nth-child(3) {
+.rank li:nth-child(3), .copper {
   background-color: #B87333; }
 
 .rank li {

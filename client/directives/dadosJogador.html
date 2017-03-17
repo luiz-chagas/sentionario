@@ -31,11 +31,12 @@
       <form>
         Palavra <span data-balloon="Insira palavras em sua forma singular (Ex: Bonita, ao invés de Bonitas)" data-balloon-pos="up" data-balloon-length="medium" class="tooltip">?
         </span>
-        <input type="text" ng-disabled="!sugerir" />
-        <button class="botao logout" ng-show="sugerir">Sugerir</button>
+        <input type="text" ng-model="palavraSugerida" ng-disabled="!sugerir" />
+        <button ng-click="sugerirPalavra()" class="botao logout" ng-show="sugerir">Sugerir</button>
         <div class="infomsg" ng-show="!sugerir">
           <span>Você precisa de pelo menos 500 pontos para poder sugerir palavras</span>
         </div>
+        <p>{{status}}</p>
       </form>
     </div>
   </div>

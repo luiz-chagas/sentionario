@@ -6,7 +6,7 @@
       <a id="btnBuscar" class="btnBuscar card-hover" ng-click="buscar()">&nbsp;</a>
       </input>
     </div>
-    <div class="bottomUp resultadoBusca" ng-repeat="palavra in palavrasFiltradas | orderBy: 'nome' | limitTo:20">
+    <div class="resultadoBusca" ng-repeat="palavra in palavrasFiltradas | orderBy: 'nome' | limitTo:20">
       <div class="resultado card">
         <div class="row">
           <div class="six columns">
@@ -17,7 +17,7 @@
             <div class="detalhesPalavra">
               <p class=""> Sentimento: {{sentimento(palavra.total, palavra.qtdVotos)}}</p>
               <p class=""> {{positividade(palavra.total, palavra.qtdVotos) | percentage:0}} de positividade</p>
-              <div class='likeDiv' ng-show="palavra.qtdVotos">
+              <div class='likeDiv' style="display:none" ng-show="palavra.qtdVotos">
                 <p class="small">Esta classificação está correta?</p>
                 <img class="like" src="images/like.png"></img><span class="likeLabel">0</span>
                 <img class="like" src="images/dislike.png"></img><span class="likeLabel">0</span>
@@ -36,6 +36,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="center" ng-show="mostrarZeroResultados">
+      <h4 class="grey">Sua consulta não encontrou resultados.</h4>
     </div>
   </div>
 </div>

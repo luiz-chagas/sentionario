@@ -108,6 +108,26 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
     $scope.erro = "";
   };
 
+  $scope.palavraSugerida = "";
+
+  $scope.sugerirPalavra = function () {
+    if (!$scope.palavraSugerida) {
+      return;
+    }
+    data = {
+      palavra: $scope.palavraSugerida.trim().toLowerCase()
+    }
+    $http.post("/api/sugerirpalavra", data)
+      .then((response) => {
+        $scope.palavraSugerida = "";
+        $scope.status = response.data.status;
+      })
+      .catch((err) => {
+        $scope.palavraSugerida = "";
+        $scope.status = err.data.status;
+      });
+  };
+
   $scope.logar = function () {
     $scope.erro = "";
     if ($scope.email === null) {
@@ -297,15 +317,23 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function (
     $scope.palavrasFiltradas = palavras.filter(function (data) {
       return (data.nome.indexOf($scope.busca.toLowerCase()) > -1);
     });
+    if ($scope.palavrasFiltradas.length === 0) {
+      $scope.mostrarZeroResultados = true;
+    } else {
+      $scope.mostrarZeroResultados = false;
+    }
   };
 }]);
 
 app.controller('RankingController', ["$scope", "$http", function ($scope, $http) {
   $scope.top10 = [];
   $scope.stats = {};
+  $scope.pos = 0;
 
   $http.get("/api/ranking").then(function (response) {
-    $scope.top10 = response.data;
+    console.log(response.data);
+    $scope.top10 = response.data.top;
+    $scope.pos = response.data.pos;
   });
 
   $http.get("/api/estatistica").then(function (response) {

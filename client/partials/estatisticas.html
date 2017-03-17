@@ -2,12 +2,21 @@
   <div class="container card">
     <div class='row'>
       <div class="six columns info">
-        <h3 class="">Ranking de classificadores</h3>
+        <h3>Ranking de classificadores</h3>
         <ul class="rank">
           <li ng-repeat="user in top10">
             <img ng-src="{{'images/' + user.avatar + '.png'}}" class="avatar" />#{{$index + 1}} {{user.nome}}
             <span class="points">{{user.pontos}}pts</span>
           </li>
+          <div ng-show="pos > 10">
+            <div class="separator">
+              Sua posição
+            </div>
+            <li class="neutro">
+              <img ng-src="{{'images/' + user.avatar + '.png'}}" class="avatar" />#{{pos}} {{user.nome}}
+              <span class="points">{{user.pontos}}pts</span>
+            </li>
+          </div>
         </ul>
       </div>
       <div class="six columns info">

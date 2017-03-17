@@ -1,12 +1,25 @@
-.rank li:nth-child(1) {
+.separator::after{
+  content: '';
+  height: 3px;
+  width: 100%;
+  background-color: $pri-color;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.neutro {
+  background: transparent !important;
+}
+
+.rank li:nth-child(1), .gold {
     background-color: #FFDF00;
 }
 
-.rank li:nth-child(2) {
+.rank li:nth-child(2), .silver {
     background-color: #C0C0C0;
 }
 
-.rank li:nth-child(3) {
+.rank li:nth-child(3), .copper {
     background-color: #B87333;
 }
 
