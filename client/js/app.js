@@ -383,7 +383,48 @@ app.controller('RankingController', ["$scope", "$http", function ($scope, $http)
 }]);
 
 app.controller('PerfilController', ["$scope", "$http", "$route", function ($scope, $http, $route) {
-
+  $scope.avatares = [{
+      nome: 'Homem',
+      pontos: 0
+    },
+    {
+      nome: 'Mulher',
+      pontos: 0
+    },
+    {
+      nome: 'Professor',
+      pontos: 50
+    },
+    {
+      nome: 'Cachorro',
+      pontos: 100
+    },
+    {
+      nome: 'Gato',
+      pontos: 100
+    },
+    {
+      nome: 'Aristoteles',
+      pontos: 400
+    },
+    {
+      nome: 'Shakespeare',
+      pontos: 600
+    },
+    {
+      nome: 'Tim-maia',
+      pontos: 800
+    },
+    {
+      nome: 'Adele',
+      pontos: 1000
+    },
+    {
+      nome: 'Tarantino',
+      pontos: 1200
+    },
+  ];
+  $scope.avatarSelecionado = "";
   $scope.nome = $scope.user.nome;
   $scope.email = $scope.user.email;
   $scope.avatar = $scope.user.avatar;
@@ -409,13 +450,13 @@ app.controller('PerfilController', ["$scope", "$http", "$route", function ($scop
   };
   $scope.trocarAvatar = function () {
     $scope.avatarResult = "";
-    if (!$scope.avatarSelecionado.length) {
+    if (!$scope.avatarSelecionado) {
       return;
-    } else if ($scope.avatarSelecionado === $scope.user.avatar) {
+    } else if ($scope.avatarSelecionado.toLowerCase() === $scope.user.avatar) {
       return;
     }
     $http.post('/api/avatar', {
-      avatar: $scope.avatarSelecionado
+      avatar: $scope.avatarSelecionado.toLowerCase()
     }).then(function (response) {
       $scope.user = response.data.user;
       $scope.avatarResult = response.data.status;

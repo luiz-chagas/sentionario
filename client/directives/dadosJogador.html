@@ -22,7 +22,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <div class='card' ng-show="logado">
@@ -76,8 +75,8 @@
   <div class="card" ng-show="!logado">
     <div class="cadastroMenu">
       <ul class="">
-        <li><a href="javascript:void(0)" ng-click="reset()" onclick="loginDiv('#login')">Entrar</a></li>
-        <li><a href="javascript:void(0)" ng-click="reset()" onclick="loginDiv('#cadastro')">Cadastrar</a></li>
+        <li><a id="menuLogin" class="ativoBranco" href="javascript:void(0)" ng-click="reset()" onclick="loginMenu()">Entrar</a></li>
+        <li><a id="menuCadastro" href="javascript:void(0)" ng-click="reset()" onclick="cadastroMenu()">Cadastrar</a></li>
       </ul>
     </div>
     <div id="login" class="fadeIn">

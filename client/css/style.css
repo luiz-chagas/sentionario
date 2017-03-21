@@ -892,6 +892,12 @@ h6 {
     color: inherit;
     background: inherit; }
 
+.ativoBranco:after {
+  content: '';
+  display: block;
+  background-color: white;
+  height: 2px; }
+
 .ativo:after {
   content: '';
   display: block;
@@ -1071,12 +1077,8 @@ p {
   display: block; }
 
 .cadastroMenu li {
-  margin: 8px; }
-  .cadastroMenu li:nth-child(1) {
-    display: inline-block; }
-  .cadastroMenu li:nth-child(2) {
-    display: inline-block;
-    right: 0; }
+  margin: 8px;
+  display: inline-block; }
   .cadastroMenu li a {
     color: white;
     text-decoration: none;
@@ -1409,13 +1411,17 @@ output {
   color: red;
   padding-top: 10px; }
 
+.avatares ul {
+  margin-bottom: 0px !important; }
+
 .avatares li {
   list-style: none;
   display: inline-block;
   width: 100px;
-  text-align: center; }
+  text-align: center;
+  line-height: 1.1em; }
   .avatares li input {
-    margin: 0 auto;
+    margin: 10px auto;
     display: block; }
 
 .avatar-icon {

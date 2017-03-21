@@ -1,11 +1,15 @@
 .avatares {
+    ul{
+      margin-bottom: 0px !important;
+    }
     li {
         list-style: none;
         display: inline-block;
         width: 100px;
         text-align: center;
+        line-height: 1.1em;
         input{
-          margin: 0 auto;
+          margin: 10px auto;
           display: block;
         }
     }

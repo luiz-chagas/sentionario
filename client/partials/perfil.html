@@ -24,35 +24,10 @@
           <div ng-show="divAvatar">
             <form>
               <ul class="avatares">
-                <li>
-                  <img class="avatar-icon" src="images/homem.png"/>
-                  Homem
-                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'homem'" value="homem" name="avatar" />
-                </li>
-                <li>
-                  <img class="avatar-icon" src="images/mulher.png"/>
-                  Mulher
-                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'mulher'" value="mulher" name="avatar" />
-                </li>
-                <li>
-                  <img class="avatar-icon" src="images/professor.png"/>
-                  Professor
-                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'professor'" value="professor" name="avatar" />
-                </li>
-                <li>
-                  <img class="avatar-icon" src="images/shakespeare.png"/>
-                  Shakespeare
-                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'shakespeare'" value="shakespeare" name="avatar" />
-                </li>
-                <li>
-                  <img class="avatar-icon" src="images/tim-maia.png"/>
-                  Tim Maia
-                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'tim-maia'" value="tim-maia" name="avatar" />
-                </li>
-                <li>
-                  <img class="avatar-icon" src="images/tarantino.png"/>
-                  Tarantino
-                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'tarantino'" value="tarantino" name="avatar" />
+                <li ng-repeat="avatar in avatares">
+                  <img class="avatar-icon" ng-src="{{'images/' + avatar.nome.toLowerCase() +'.png'}}"/>
+                  {{avatar.nome}}<br><span ng-show="user.pontos >= avatar.pontos">(Liberado)</span><span ng-show="user.pontos < avatar.pontos">({{avatar.pontos}} pontos)</span>
+                  <input type="radio" ng-disabled="user.pontos < avatar.pontos" ng-checked="$parent.avatar === avatar.nome.toLowerCase()" ng-model="$parent.avatarSelecionado" value="{{avatar.nome}}" name="avatar" />
                 </li>
               </ul>
               <div class="infomsg" ng-show="avatarResult.length">

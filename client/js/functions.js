@@ -30,7 +30,7 @@ function buscar() {
     resultado.removeClass("hide");
   } else {
     resultado.addClass("hide");
-    setTimeout(buscar, 50);
+    setTimeout(buscar, 100);
   }
 }
 
@@ -39,9 +39,23 @@ function myFunction() {
 }
 
 function loginDiv(name) {
-  $("#login").addClass('hide');
-  $('#cadastro').addClass('hide')
-  $(name).removeClass('hide');
+  $('.ativoBranco').removeClass('ativoBranco');
+
+  $(this).addClass('ativoBranco');
+}
+
+function loginMenu() {
+  $('#menuCadastro').removeClass('ativoBranco');
+  $('#menuLogin').addClass('ativoBranco');
+  $('#cadastro').addClass('hide');
+  $('#login').removeClass('hide');
+}
+
+function cadastroMenu() {
+  $('#menuLogin').removeClass('ativoBranco');
+  $('#menuCadastro').addClass('ativoBranco');
+  $('#login').addClass('hide');
+  $('#cadastro').removeClass('hide');
 }
 
 //function envia(){

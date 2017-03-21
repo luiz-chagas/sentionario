@@ -38,6 +38,13 @@ h6 {
 .ativo{
 }
 
+.ativoBranco:after{
+    content: '';
+    display: block;
+    background-color: white;
+    height: 2px;
+}
+
 .ativo:after {
     content: '';
     display: block;
@@ -275,15 +282,7 @@ p {
 
     li {
         margin: 8px;
-
-        &:nth-child(1) {
-            display: inline-block;
-        }
-
-        &:nth-child(2) {
-            display: inline-block;
-            right: 0;
-        }
+        display: inline-block;
 
         a {
             color: white;
@@ -304,6 +303,8 @@ p {
         }
     }
 }
+
+
 
 .esqueceu {
     color: black;
