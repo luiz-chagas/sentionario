@@ -433,6 +433,7 @@ app.controller('PerfilController', ["$scope", "$http", "$route", function ($scop
   $scope.divAvatar = true;
   $scope.perfilResult = "";
   $scope.avatarResult = "";
+  $scope.senhaResult = "";
   $scope.atualizarPerfil = function () {
     $scope.perfilResult = "";
     if (!$scope.nome.length || !$scope.email.length) {
@@ -461,6 +462,22 @@ app.controller('PerfilController', ["$scope", "$http", "$route", function ($scop
       $scope.user = response.data.user;
       $scope.avatarResult = response.data.status;
       document.querySelector("#userAvatar").src = 'images/' + $scope.user.avatar + '.png';
+    });
+  };
+  $scope.trocarSenha = function () {
+    $scope.senhaResult = "";
+    if ($scope.novaSenha !== $scope.confirmaNovaSenha) {
+      $scope.senhaResult = "Erro! Validação da senha não confere."
+      return;
+    }
+    $http.post('/api/atualizarSenha', {
+      senhaAntiga: $scope.senhaAtual,
+      senhaNova: $scope.novaSenha
+    }).then((response) => {
+      $scope.senhaResult = response.data.status;
+    }, (err) => {
+      console.log(err);
+      $scope.senhaResult = err.data.status;
     });
   };
 }]);

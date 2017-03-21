@@ -42,9 +42,16 @@
             <h3 class="clicavel" ng-click="divSeguranca = !divSeguranca">Seguranca</h3>
           </div>
           <div ng-show="divSeguranca">
-            Senha atual<input ng-model="senhaAtual" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')" /> Nova senha<input ng-model="novaSenha" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')"
-            /> Confirme nova senha<input ng-model="confirmaNovaSenha" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')" />
-            <button class="botao logout">Alterar senha</button>
+            Senha atual
+            <input ng-model="senhaAtual" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')" />
+            Nova senha
+            <input ng-model="novaSenha" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')"/>
+            Confirme nova senha
+            <input ng-model="confirmaNovaSenha" type="password" required oninvalid="this.setCustomValidity('Por favor preencha este campo')" />
+            <div class="infomsg" ng-show="senhaResult.length">
+              {{senhaResult}}
+            </div>
+            <button ng-click="trocarSenha()" class="botao logout">Alterar senha</button>
           </div>
         </div>
       </div>

@@ -439,6 +439,32 @@ router.post('/recusarPalavra', function (req, res) {
     });
 });
 
+router.post('/atualizarSenha', function (req, res) {
+  let userId = req.user.id;
+  let oldPassword = req.body.senhaAntiga;
+  let newPassword = req.body.senhaNova;
+  return User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return res.status(500).json({
+          status: "Erro! Usuario nao encontrado."
+        });
+      } else {
+        if (user.senha === oldPassword) {
+          user.senha = newPassword;
+          user.save();
+          return res.status(200).json({
+            status: "Senha alterada com sucesso."
+          });
+        } else {
+          return res.status(500).json({
+            status: "Erro! Senha atual invalida."
+          });
+        }
+      }
+    });
+});
+
 router.get('*', function (req, res) {
   return res.status(404).json({
     status: "Pagina nao encontrada"
