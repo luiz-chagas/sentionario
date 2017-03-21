@@ -182,7 +182,6 @@ router.post('/cadastro', function (req, res, next) {
                 user: null
               });
             }
-            req.user.senha = undefined;
             res.status(200).json({
               user: req.user
             });
@@ -213,7 +212,6 @@ router.post('/login', function (req, res, next) {
           user: null
         });
       }
-      req.user.senha = undefined;
       res.status(200).json({
         user: req.user
       });
@@ -230,7 +228,6 @@ router.post('/avatar', function (req, res) {
       user.set("avatar", req.body.avatar);
       user.save()
         .then(function () {
-          user.senha = undefined;
           res.status(200).json({
             user: user,
             status: "Avatar atualizado!"
@@ -250,7 +247,6 @@ router.post('/perfil', function (req, res) {
       user.set("email", req.body.email);
       user.save()
         .then(function () {
-          user.senha = undefined;
           res.status(200).json({
             status: "Perfil atualizado!",
             user: user
@@ -273,7 +269,6 @@ router.get('/ranking', function (req, res) {
     let pos = 0;
     for (let i = 0, j = users.length; i < j || pos === 0; i++) {
       if (i < 10) {
-        users[i].senha = undefined;
         top.push(users[i]);
       }
       if (req.user.id === users[i].id) {
@@ -400,6 +395,48 @@ router.post('/sugerirpalavra', function (req, res) {
       });
     });
   });
+});
+
+router.get('/palavrasSugeridas', function (req, res) {
+  return SugerirPalavra.findAll({
+      where: {
+        aceita: null
+      }
+    })
+    .then((palavras) => {
+      return res.status(200).json({
+        palavras: palavras
+      });
+    })
+});
+
+router.post('/aceitarPalavra', function (req, res) {
+  let id = req.body.palavra.id;
+  SugerirPalavra.findById(id)
+    .then((sugerir) => {
+      sugerir.aceita = true;
+      sugerir.id_avaliador = req.user.id;
+      Palavra.create({
+        nome: sugerir.palavra
+      });
+      sugerir.save()
+        .then(() => {
+          return res.status(200);
+        });
+    });
+});
+
+router.post('/recusarPalavra', function (req, res) {
+  let id = req.body.palavra.id;
+  SugerirPalavra.findById(id)
+    .then((sugerir) => {
+      sugerir.aceita = false;
+      sugerir.id_avaliador = req.user.id;
+      sugerir.save()
+        .then(() => {
+          return res.status(200);
+        });
+    });
 });
 
 router.get('*', function (req, res) {

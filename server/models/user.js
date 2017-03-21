@@ -37,5 +37,17 @@ module.exports = mydb.define("usuario", {
     allowNull: false
   }
 }, {
+  instanceMethods: {
+    toJSON: function () {
+      return {
+        id: this.id,
+        nome: this.nome,
+        email: this.email,
+        pontos: this.pontos,
+        admin: this.admin,
+        avatar: this.avatar
+      };
+    }
+  },
   tableName: 'usuario'
 });

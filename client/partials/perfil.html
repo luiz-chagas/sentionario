@@ -44,6 +44,16 @@
                   Shakespeare
                   <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'shakespeare'" value="shakespeare" name="avatar" />
                 </li>
+                <li>
+                  <img class="avatar-icon" src="images/tim-maia.png"/>
+                  Tim Maia
+                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'tim-maia'" value="tim-maia" name="avatar" />
+                </li>
+                <li>
+                  <img class="avatar-icon" src="images/tarantino.png"/>
+                  Tarantino
+                  <input type="radio" ng-model="avatarSelecionado" ng-checked="avatar === 'tarantino'" value="tarantino" name="avatar" />
+                </li>
               </ul>
               <div class="infomsg" ng-show="avatarResult.length">
                 {{avatarResult}}

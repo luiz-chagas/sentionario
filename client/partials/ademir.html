@@ -10,6 +10,22 @@
           <button class="botao logout" ng-click="inserirPalavra()">Inserir</button>
         </form>
       </div>
+      <div>
+        <div>
+          <h3>Aceitar Palavras</h3>
+        </div>
+        <div class="container row">
+            <div ng-repeat="palavra in palavrasSugeridas">
+              <div class="four columns">
+                {{palavra.palavra}}
+              </div>
+              <div class="eight columns">
+                <input class="inline" type="button" ng-click="aceitarPalavra(palavra)" value="Aceitar">
+                <input class="inline" type="button" ng-click="recusarPalavra(palavra)" value="Recusar">
+              </div>
+            </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="four columns sidebar">

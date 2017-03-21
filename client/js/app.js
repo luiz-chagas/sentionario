@@ -331,7 +331,6 @@ app.controller('RankingController', ["$scope", "$http", function ($scope, $http)
   $scope.pos = 0;
 
   $http.get("/api/ranking").then(function (response) {
-    console.log(response.data);
     $scope.top10 = response.data.top;
     $scope.pos = response.data.pos;
   });
@@ -436,6 +435,34 @@ app.controller('AdminController', ["$scope", "$http", function ($scope, $http) {
     }, function (err) {
       $scope.palavra = "erro";
     });
+  };
+
+  $scope.palavrasSugeridas = [];
+
+  $http.get('/api/palavrasSugeridas')
+    .then((response) => {
+      console.log(response);
+      $scope.palavrasSugeridas = response.data.palavras;
+    }, (err) => {
+
+    });
+
+  $scope.aceitarPalavra = function (palavra) {
+    console.log(palavra);
+    $http.post('/api/aceitarPalavra', {
+      palavra: palavra
+    });
+    let index = $scope.palavrasSugeridas.indexOf(palavra);
+    $scope.palavrasSugeridas.splice(index, 1);
+  };
+
+  $scope.recusarPalavra = function (palavra) {
+    console.log(palavra);
+    $http.post('/api/recusarPalavra', {
+      palavra: palavra
+    });
+    let index = $scope.palavrasSugeridas.indexOf(palavra);
+    $scope.palavrasSugeridas.splice(index, 1);
   };
 }]);
 

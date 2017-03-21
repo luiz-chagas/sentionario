@@ -874,6 +874,10 @@ h5,
 h6 {
   font-family: "Arial", sans-serif; }
 
+.inline {
+  display: inline-block;
+  width: auto !important; }
+
 .clicavel {
   cursor: pointer; }
 
@@ -1415,7 +1419,9 @@ output {
     display: block; }
 
 .avatar-icon {
-  max-width: 60px; }
+  max-width: 60px;
+  display: block;
+  margin: 0 auto; }
 
 .metas a {
   text-decoration: none;
