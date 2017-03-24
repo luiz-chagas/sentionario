@@ -260,7 +260,13 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function (
 
   $scope.loadGraph = function (palavra) {
     if (palavra.qtdVotos === 0) return;
-    $("." + palavra.nome).html("");
+    if ($('.btn-' + palavra.nome).text() === 'Esconder gráfico') {
+      $('.btn-' + palavra.nome).text("Ver distribuição de classificações");
+      $("." + palavra.nome).html("");
+      $("." + palavra.nome).removeClass("ct-major-second");
+      return;
+    }
+    $('.btn-' + palavra.nome).text("Esconder gráfico");
     $("." + palavra.nome).addClass("ct-major-second");
     $timeout(function () {
       new Chartist.Bar('.' + palavra.nome, {
@@ -314,6 +320,9 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function (
   };
 
   $scope.buscar = function () {
+    if ($scope.busca.length === 0) {
+      return;
+    }
     $scope.palavrasFiltradas = palavras.filter(function (data) {
       return (data.nome.indexOf($scope.busca.toLowerCase()) > -1);
     });

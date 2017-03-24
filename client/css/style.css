@@ -1021,13 +1021,13 @@ p {
   p:first-letter {
     font-size: 150%; }
 
-.card, .card-hover, .botao, .send {
-  padding: 3px;
+.card, .card-hover, .botao {
+  padding: 10px;
   background: white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.22);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
 
-.card-hover:hover, .botao:hover, .send:hover {
+.card-hover:hover, .botao:hover {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
 
 #busca {
@@ -1041,11 +1041,10 @@ p {
   margin-top: 1rem;
   transition: 0.3s ease-in-out;
   float: right;
-  border: none; }
+  border: 1px solid #F2F2F2; }
   #busca:focus {
     background-color: white;
-    width: 20rem;
-    border: 1px solid #F2F2F2; }
+    width: 20rem; }
 
 .mobile {
   display: none; }
@@ -1106,7 +1105,7 @@ p {
   padding: 0;
   margin-top: 5px; }
   .botao:focus, .botao:hover {
-    color: white; }
+    color: black; }
 
 .username a {
   text-decoration: none;
@@ -1157,13 +1156,8 @@ p {
     border: none;
     max-width: 400px;
     display: inline-block;
-    text-align: center; }
-    .buscar input:focus {
-      border: none;
-      border-bottom: 1px solid grey; }
-
-.palavra {
-  font-size: 50px; }
+    text-align: center;
+    border-bottom: 1px solid grey; }
 
 #btnBuscar {
   display: inline-block;
@@ -1180,22 +1174,6 @@ p {
 
 output {
   display: block; }
-
-.send {
-  padding-top: 0;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-bottom: 20px;
-  background-color: #06425C;
-  color: white;
-  width: auto;
-  border-radius: 0;
-  border-color: currentColor;
-  font-size: 1.6rem;
-  text-transform: none; }
-  .send:focus, .send:hover {
-    color: white;
-    border-color: currentColor; }
 
 .smiley {
   margin-top: 10px;
@@ -1221,7 +1199,7 @@ output {
   font-size: 80%; }
 
 .smaller {
-  font-size: 60%; }
+  font-size: 70%; }
 
 .dadosClassificacao {
   display: inline-block;
@@ -1370,14 +1348,23 @@ output {
     .info p:first-letter {
       font-size: 100%; }
 
+.chato a {
+  text-decoration: none;
+  color: #06425C; }
+
+.chato p {
+  margin-top: 5px;
+  padding-bottom: 0px;
+  margin-bottom: 5px; }
+
+.chato p:first-letter {
+  font-size: 16px; }
+
 .aviso {
   display: block;
   background-color: #ffffcc;
   border: 1px yellow solid;
   color: #999900; }
-
-.logout:hover, .logout:focus {
-  color: black; }
 
 .sidebar div {
   margin-bottom: 20px; }
@@ -1389,7 +1376,9 @@ output {
   font-size: 30px; }
 
 .palavra {
-  text-transform: capitalize; }
+  text-transform: capitalize;
+  margin-bottom: 30px;
+  font-size: 50px; }
 
 #slider {
   margin-top: 30px; }

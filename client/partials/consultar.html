@@ -13,14 +13,21 @@
             <div class="palavra">{{palavra.nome}}</div>
           </div>
           <div class="six columns">
-            <img ng-src="{{smileySrc(palavra.total, palavra.qtdVotos)}}" class="smiley"></img>
-            <div class="detalhesPalavra">
-              <p class=""> Sentimento: {{sentimento(palavra.total, palavra.qtdVotos)}}</p>
-              <p class=""> {{positividade(palavra.total, palavra.qtdVotos) | percentage:0}} de positividade</p>
-              <div class='likeDiv' style="display:none" ng-show="palavra.qtdVotos">
-                <p class="small">Esta classificação está correta?</p>
-                <img class="like" src="images/like.png"></img><span class="likeLabel">0</span>
-                <img class="like" src="images/dislike.png"></img><span class="likeLabel">0</span>
+            <div class="chato" ng-show="!palavra.qtdVotos">
+              <p>Que chato, esta palavra ainda não foi avaliada!</p>
+              <span ng-show="logado"><a href="/colaborar">Clique aqui</a> para avaliar palavras!</span>
+              <span ng-show="!logado"><a href="/">Entre na plataforma</a> para começar a avaliar palavras!</span>
+            </div>
+            <div ng-show="palavra.qtdVotos">
+              <img ng-src="{{smileySrc(palavra.total, palavra.qtdVotos)}}" class="smiley"></img>
+              <div class="detalhesPalavra">
+                <p class=""> Sentimento: {{sentimento(palavra.total, palavra.qtdVotos)}}</p>
+                <p class=""> {{positividade(palavra.total, palavra.qtdVotos) | percentage:0}} de positividade</p>
+                <div class='likeDiv' style="display:none" ng-show="palavra.qtdVotos">
+                  <p class="small">Esta classificação está correta?</p>
+                  <img class="like" src="images/like.png"></img><span class="likeLabel">0</span>
+                  <img class="like" src="images/dislike.png"></img><span class="likeLabel">0</span>
+                </div>
               </div>
             </div>
           </div>
@@ -29,8 +36,8 @@
           <div class="dadosClassificacao six columns">
             <p>Quantidade de classificações: {{palavra.qtdVotos}}</p>
             <div ng-show="palavra.qtdVotos">
+              <a ng-class="'btn-' + palavra.nome" ng-click="loadGraph(palavra)" class="button">Ver distribuição de classificações</a>
               <div class="ct-chart" ng-class="palavra.nome">
-                <a ng-click="loadGraph(palavra)" class="button">Ver distribuição de classificações</a>
               </div>
             </div>
           </div>

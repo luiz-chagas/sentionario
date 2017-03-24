@@ -9,17 +9,29 @@
     }
   }
 }
+
+.chato{
+  a {
+    text-decoration: none;
+    color: $pri-color;
+  }
+  p{
+    margin-top: 5px;
+    padding-bottom: 0px;
+    margin-bottom: 5px;
+  }
+  p:first-letter{
+    font-size: 16px;
+  }
+}
+
 .aviso{
   display: block;
   background-color: lighten(yellow, 40%);
   border: 1px yellow solid;
   color: darken(yellow, 20%);
 }
-.logout{
-  &:hover, &:focus{
-    color: black;
-  }
-}
+
 .sidebar {
   div {
     margin-bottom: 20px;
@@ -33,6 +45,8 @@
 }
 .palavra {
   text-transform: capitalize;
+  margin-bottom: 30px;
+  font-size: 50px;
 }
 #slider {
   margin-top: 30px;

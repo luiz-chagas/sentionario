@@ -86,7 +86,7 @@
           <input name="email" type="email" ng-model="email" placeholder="Digite seu email" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
           <label><b>Senha</b></label>
           <input name="password" type="password" ng-model="senha" placeholder="Digite sua senha" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
-          <button class="botao azul" type="submit" ng-click="logar()">Entrar</button>
+          <button class="botao" type="submit" ng-click="logar()">Entrar</button>
           <span ng-model="erro" class="erro">{{erro}}</span>
           <input type="checkbox" checked="checked"> Lembrar usuário</input>
         </div>
@@ -106,7 +106,7 @@
           <input type="password" ng-model="senha" placeholder="Digite sua senha" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
           <label><b>Confirmação de Senha</b></label>
           <input type="password" ng-model="confirmaSenha" placeholder="Digite sua senha novamente" required oninvalid="this.setCustomValidity('Por favor preencha este campo')">
-          <button class="botao azul" type="submit" ng-click="registrar()">Cadastrar</button>
+          <button class="botao" type="submit" ng-click="registrar()">Cadastrar</button>
           <span ng-model="erro" class="erro">{{erro}}</span>
         </div>
       </form>
