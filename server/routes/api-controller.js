@@ -114,7 +114,10 @@ router.post('/voto', function (req, res, next) {
             }).then(function (meta) {
               if (!meta) {
                 MetaDiaria.create({
-                  id_usuario: req.user.id
+                  id_usuario: req.user.id,
+                  dia: new Date().getDate(),
+                  mes: new Date().getMonth(),
+                  ano: new Date().getYear()
                 }).then(function (newmeta) {
                   meta = newmeta;
                   meta.votos = meta.votos + 1;
@@ -317,7 +320,10 @@ router.get('/metaDiaria', function (req, res) {
     }).then(function (meta) {
       if (!meta.length) {
         MetaDiaria.create({
-          id_usuario: req.user.id
+          id_usuario: req.user.id,
+          dia: new Date().getDate(),
+          mes: new Date().getMonth(),
+          ano: new Date().getYear()
         }).then(function (newmeta) {
           return res.status(200).json(newmeta);
         });

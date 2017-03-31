@@ -15,7 +15,24 @@
           <div class="six columns">
             <div class="chato" ng-show="!palavra.qtdVotos">
               <p>Que chato, esta palavra ainda não foi avaliada!</p>
-              <span ng-show="logado"><a href="/colaborar">Clique aqui</a> para avaliar palavras!</span>
+              <div ng-show="logado" class="">
+                <span class="button" ng-click="liberar(palavra)">Seja o primeiro a classificar!</span>
+                <div ng-class="'avaliar-' + palavra.nome" class='hide'>
+                  <p class="slider-output">{{output}}</p>
+                    <div class='row'>
+                        <div class="one columns stickerL hide-mobile">
+                            -
+                        </div>
+                        <div class="ten columns rslider">
+                            <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+                        </div>
+                        <div class="one columns stickerR hide-mobile">
+                            +
+                        </div>
+                    </div>
+                    <button ng-click="classificar(palavra)" class='button' type="button">Classificar</button>
+                </div>
+              </div>
               <span ng-show="!logado"><a href="/">Entre na plataforma</a> para começar a avaliar palavras!</span>
             </div>
             <div ng-show="palavra.qtdVotos">

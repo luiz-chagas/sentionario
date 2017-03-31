@@ -78,6 +78,11 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: 'RankingController',
       restricted: true
     })
+    .when('/conquistas', {
+      templateUrl: './partials/conquistas.html',
+      controller: 'ConquistasController',
+      restricted: true
+    })
     .when('/logout', {
       controller: 'LogoutController',
       restricted: true
@@ -332,6 +337,58 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function (
       $scope.mostrarZeroResultados = false;
     }
   };
+
+  update = function () {
+    $scope.output = $scope.estados[$scope.slider.value - 1];
+  };
+
+  $scope.output = "Extremamente Negativo";
+
+  $scope.slider = {
+    value: 1,
+    options: {
+      floor: 1,
+      ceil: 9,
+      showTicks: true,
+      hideLimitLabels: true,
+      hidePointerLabels: true,
+      onChange: update
+    }
+  };
+
+  $scope.liberar = function (palavra) {
+    $scope.output = "Extremamente Negativo";
+    $scope.slider.value = 1;
+    if ($('div[class*="avaliar-' + palavra.nome + '"]').hasClass('hide')) {
+      $('div[class*="avaliar"]').addClass('hide');
+      $('div[class*="avaliar-' + palavra.nome + '"]').removeClass('hide');
+    } else {
+      $('div[class*="avaliar"]').addClass('hide');
+    }
+  };
+
+  $scope.classificar = function (palavra) {
+    var data = {
+      palavraId: palavra.id,
+      userId: $scope.user.id,
+      valor: $scope.slider.value
+    };
+    $http.post("/api/voto", data)
+      .then(function (response) {
+        $('#pontos').prop('number', $scope.user.pontos);
+        $scope.user = response.data.user;
+        $scope.metaDiaria = response.data.meta;
+        atualizarPalavra()
+      });
+  };
+
+  atualizarPalavra = function (id, value) {
+    palavras.length = 0;
+    $scope.palavrasFiltradas.length = 0;
+    $http.get("/api/palavras").then(function (response) {
+      palavras = response.data;
+    });
+  }
 }]);
 
 app.controller('RankingController', ["$scope", "$http", function ($scope, $http) {
@@ -534,6 +591,16 @@ app.controller('AdminController', ["$scope", "$http", function ($scope, $http) {
 }]);
 
 app.controller('LogoutController', ["$scope", 'AuthService', function ($scope, AuthService) {}]);
+
+app.controller('ConquistasController', ["$scope", 'AuthService', function ($scope, AuthService) {
+  $scope.cards = [];
+  $scope.items = new Array(20);
+  $scope.cards.push({
+    nome: 'Bethoven',
+    imagem: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Beethoven.jpg/220px-Beethoven.jpg',
+    descricao: 'descricao etc etc etc'
+  });
+}]);
 
 //#####################################################
 

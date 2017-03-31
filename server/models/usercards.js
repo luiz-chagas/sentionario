@@ -4,7 +4,7 @@ var Sequelize = require('sequelize');
 var config = require('../config/config.json')[env];
 var mydb = new Sequelize(config.database, config.username, config.password, config);
 
-module.exports = mydb.define("metadiaria", {
+module.exports = mydb.define("cards", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -14,26 +14,8 @@ module.exports = mydb.define("metadiaria", {
     type: Sequelize.INTEGER,
     allowNull: false
   },
-  dia: {
+  id_card: {
     type: Sequelize.INTEGER,
     allowNull: false
-  },
-  mes: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  },
-  ano: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  },
-  votos: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    defaultValue: 0
-  },
-  concluida: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: false
   }
 });

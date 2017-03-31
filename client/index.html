@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/rzslider.min.css">
   <link rel="stylesheet" href="css/chartist.min.css">
   <link rel="stylesheet" href="css/balloon.min.css">
+  <link rel="stylesheet" href="css/hover.min.css">
   <link rel="stylesheet" href="css/style.css">
   <base href="/" />
   <title>
@@ -45,6 +46,7 @@
         <li class="settings clicavel" ng-show="logado">
           <img id="userAvatar" class="card-hover" ng-src="{{'images/' + user.avatar + '.png'}}" alt="Menu de perfil">
           <div class="dropdown">
+            <a href="conquistas">Conquistas</a>
             <a href="perfil">Editar Perfil</a>
             <a ng-click="deslogar()" href="#">Sair</a>
           </div>

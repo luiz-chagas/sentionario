@@ -1,0 +1,25 @@
+.flex {
+    display: flex;
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        list-style: none;
+    }
+
+    ul li {
+        justify-content: space-between;
+    }
+}
+
+.cartao {
+    @extend .card;
+    @extend .clicavel;
+    width: 100px;
+    text-align: center;
+
+    img {
+        max-width: 100%;
+    }
+}

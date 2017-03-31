@@ -1,70 +1,93 @@
 .info {
-  padding: 10px;
-  border: 3px solid $pri-color;
-  p {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    &:first-letter {
-      font-size: 100%;
+    p {
+        margin-bottom: 0;
+        padding-bottom: 0;
+
+        &:first-letter {
+            font-size: 100%;
+        }
     }
-  }
 }
 
-.chato{
-  a {
-    text-decoration: none;
-    color: $pri-color;
-  }
-  p{
-    margin-top: 5px;
-    padding-bottom: 0px;
-    margin-bottom: 5px;
-  }
-  p:first-letter{
-    font-size: 16px;
-  }
+.gradient-back {
+    background: #ff0004;
+    /* Old browsers */
+    background: -moz-linear-gradient(left, #f00 0%, #f5f785 51%, #0f0 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #f00 0%,#f5f785 51%,#0f0 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #f00 0%,#f5f785 51%,#0f0 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= '#ff0004', endColorstr='#47ff2b',GradientType=1 );
+    /* IE6-9 */
+    border: 1px solid black;
 }
 
-.aviso{
-  display: block;
-  background-color: lighten(yellow, 40%);
-  border: 1px yellow solid;
-  color: darken(yellow, 20%);
+.chato {
+    a {
+        text-decoration: none;
+        color: $pri-color;
+    }
+
+    p {
+        margin-top: 5px;
+        padding-bottom: 0;
+        margin-bottom: 5px;
+    }
+
+    p:first-letter {
+        font-size: 16px;
+    }
+}
+
+.aviso {
+    display: block;
+    background-color: lighten(yellow, 40%);
+    border: 1px yellow solid;
+    color: darken(yellow, 20%);
 }
 
 .sidebar {
-  div {
-    margin-bottom: 20px;
-  }
-  h3 {
-    text-align: center;
-  }
+    div {
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        text-align: center;
+    }
 }
-.h2-colaborar{
-  font-size: 30px;
+
+.h2-colaborar {
+    font-size: 30px;
 }
+
 .palavra {
-  text-transform: capitalize;
-  margin-bottom: 30px;
-  font-size: 50px;
+    text-transform: capitalize;
+    margin-bottom: 30px;
+    font-size: 50px;
 }
+
 #slider {
-  margin-top: 30px;
+    margin-top: 30px;
 }
+
 .rslider {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
+
 .stickerR {
-  font-size: 30px;
-  text-align: left;
-  width: 10%;
-  color: lime;
-  padding-top: 10px;
+  margin-left: 10px;
+    font-size: 45px;
+    text-align: left;
+    color: lime;
+    font-weight: bold;
+    text-shadow: black -1px 0, black 0 -1px, black 1px 0, black 0 1px, black -1px -1px, black 1px 1px;
 }
+
 .stickerL {
-  font-size: 30px;
-  text-align: right;
-  width: 10%;
-  color: red;
-  padding-top: 10px;
+    font-size: 45px;
+    text-align: right;
+    color: red;
+    font-weight: bold;
+    text-shadow: black -1px 0, black 0 -1px, black 1px 0, black 0 1px, black -1px -1px, black 1px 1px;
 }
