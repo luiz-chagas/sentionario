@@ -170,7 +170,6 @@ app.controller('HomeController', ["$scope", "$location", "AuthService", "$route"
   };
 }]);
 
-
 app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthService", "$route", function ($scope, $http, $timeout, AuthService, $route) {
   var palavras = [];
 
@@ -396,6 +395,13 @@ app.controller('RankingController', ["$scope", "$http", function ($scope, $http)
   $scope.stats = {};
   $scope.pos = 0;
 
+  if (!$scope.user.task_ranking) {
+    $http.get("/api/taskRanking").
+    then((response) => {
+      $scope.user = response.data.user;
+    });
+  }
+
   $http.get("/api/ranking").then(function (response) {
     $scope.top10 = response.data.top;
     $scope.pos = response.data.pos;
@@ -592,14 +598,55 @@ app.controller('AdminController', ["$scope", "$http", function ($scope, $http) {
 
 app.controller('LogoutController', ["$scope", 'AuthService', function ($scope, AuthService) {}]);
 
-app.controller('ConquistasController', ["$scope", 'AuthService', function ($scope, AuthService) {
+app.controller('ConquistasController', ["$scope", '$http', function ($scope, $http) {
+  let debounce = true;
+
+  function loadUserCards() {
+    $http.get('/api/userCards')
+      .then((response) => {
+        console.log(response);
+        $scope.cards = response.data.cards;
+        $http.get('/api/cards')
+          .then((response) => {
+            $scope.items = response.data.cards
+            $scope.items.length -= $scope.cards.length;
+            $scope.cardsAvailable = Math.floor($scope.user.pontos / 1000) + 1 - $scope.cards.length;
+            $scope.pointsToNextCard = 1000 - ($scope.user.pontos % 1000);
+            debounce = true;
+          });
+      });
+  }
+
   $scope.cards = [];
-  $scope.items = new Array(20);
-  $scope.cards.push({
-    nome: 'Bethoven',
-    imagem: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Beethoven.jpg/220px-Beethoven.jpg',
-    descricao: 'descricao etc etc etc'
-  });
+  $scope.items = [];
+  $scope.modal = {};
+  $scope.cardsAvailable = 0;
+  $scope.pointsToNextCard = 0;
+  loadUserCards();
+
+  $scope.newCard = function () {
+    if (debounce) {
+      debounce = false;
+      let cardsUsed = $scope.cards.length;
+      let price = 1000;
+      if ($scope.user.pontos > cardsUsed * price) {
+        $http.get('/api/newCard')
+          .then((response) => {
+            if (response.data.user) {
+              $scope.user = response.data.user;
+            }
+            setTimeout(loadUserCards, 300);
+          });
+      }
+    }
+
+  };
+  $scope.loadModal = function (title, image, description) {
+    $scope.modal.descricao = description;
+    $scope.modal.imagem = image;
+    $scope.modal.titulo = title;
+    showModal();
+  };
 }]);
 
 //#####################################################
@@ -734,7 +781,6 @@ app.factory('AuthService', ['$q', '$timeout', '$http', function ($q, $timeout, $
   });
 }]);
 
-
 //#################
 
 $('.settings').click(function () {
@@ -748,8 +794,8 @@ $(document).on('click', function (e) {
 
 $(window).on('load', function () {
   switch (window.location.pathname) {
-    case '/estatisticas':
-      $('.menu-estatistica').toggleClass('ativo');
-      break;
+  case '/estatisticas':
+    $('.menu-estatistica').toggleClass('ativo');
+    break;
   }
 });

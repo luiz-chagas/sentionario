@@ -35,6 +35,16 @@ module.exports = mydb.define("usuario", {
     type: Sequelize.STRING,
     defaultValue: "anonymous",
     allowNull: false
+  },
+  task_ranking: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    allowNull: false
+  },
+  task_conquista: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    allowNull: false
   }
 }, {
   instanceMethods: {
@@ -45,7 +55,9 @@ module.exports = mydb.define("usuario", {
         email: this.email,
         pontos: this.pontos,
         admin: this.admin,
-        avatar: this.avatar
+        avatar: this.avatar,
+        task_ranking: this.task_ranking,
+        task_conquista: this.task_conquista
       };
     }
   },

@@ -4,7 +4,7 @@ var Sequelize = require('sequelize');
 var config = require('../config/config.json')[env];
 var mydb = new Sequelize(config.database, config.username, config.password, config);
 
-module.exports = mydb.define("cards", {
+module.exports = mydb.define("usercards", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,

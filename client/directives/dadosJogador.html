@@ -40,19 +40,6 @@
     </div>
   </div>
 
-  <!--<div class='card' ng-show="logado">
-    <h3>Dados do usuario<a href="perfil" class="minibotao">Editar</a></h3>
-    <div class="info">
-      <h5>
-        {{user.nome}}
-      </h5>
-      <p>
-        Pontos: {{user.pontos}}
-      </p>
-    </div>
-    <button ng-click="deslogar()" class="botao logout">Sair</button>
-  </div>-->
-
   <div class="card center" ng-show="logado">
     <div id="meta">
       <h3>Explorando a plataforma</h3>
@@ -65,6 +52,28 @@
           class="tooltip">
           <a href="/perfil">Trocando o avatar
             <span ng-show="user.avatar !== 'anonymous'"><i class="fa fa-check-square"></i></span>
+          </a>
+          </span></h5>
+        </div>
+        <div ng-class="{concluido: user.task_ranking}">
+          <h5><span
+          data-balloon="Veja sua posição no ranking e ganhe 50 pontos!"
+          data-balloon-pos="up"
+          data-balloon-length="medium"
+          class="tooltip">
+          <a href="/estatisticas">Visualizando o ranking
+            <span ng-show="user.task_ranking"><i class="fa fa-check-square"></i></span>
+          </a>
+          </span></h5>
+        </div>
+        <div ng-class="{concluido: user.task_conquista}">
+          <h5><span
+          data-balloon="Pegue seu primeiro card e ganhe 100 pontos!"
+          data-balloon-pos="up"
+          data-balloon-length="medium"
+          class="tooltip">
+          <a href="/conquistas">Primeira conquista
+            <span ng-show="user.task_conquista"><i class="fa fa-check-square"></i></span>
           </a>
           </span></h5>
         </div>

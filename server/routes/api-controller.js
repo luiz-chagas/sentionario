@@ -1,6 +1,5 @@
 "use strict";
 
-
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.js');
@@ -8,8 +7,8 @@ const Palavra = require('../models/palavra.js');
 const Voto = require('../models/votos.js');
 const MetaDiaria = require('../models/metaDiaria.js');
 const SugerirPalavra = require('../models/sugerirPalavra.js');
-const pg = require('pg');
-const client = new pg.Client();
+const Card = require('../models/card.js');
+const UserCards = require('../models/usercards.js');
 const passport = require('../middleware/auth.js');
 
 router.get('/palavras', function (req, res, next) {
@@ -61,42 +60,42 @@ router.post('/voto', function (req, res, next) {
     Palavra.findById(voto.id_palavra)
       .then(function (palavra) {
         switch (valor) {
-          case 1:
-            palavra.set("votos1", ++palavra.votos1);
-            palavra.set("total", palavra.total + 1);
-            break;
-          case 2:
-            palavra.set("votos2", ++palavra.votos2);
-            palavra.set("total", palavra.total + 2);
-            break;
-          case 3:
-            palavra.set("votos3", ++palavra.votos3);
-            palavra.set("total", palavra.total + 3);
-            break;
-          case 4:
-            palavra.set("votos4", ++palavra.votos4);
-            palavra.set("total", palavra.total + 4);
-            break;
-          case 5:
-            palavra.set("votos5", ++palavra.votos5);
-            palavra.set("total", palavra.total + 5);
-            break;
-          case 6:
-            palavra.set("votos6", ++palavra.votos6);
-            palavra.set("total", palavra.total + 6);
-            break;
-          case 7:
-            palavra.set("votos7", ++palavra.votos7);
-            palavra.set("total", palavra.total + 7);
-            break;
-          case 8:
-            palavra.set("votos8", ++palavra.votos8);
-            palavra.set("total", palavra.total + 8);
-            break;
-          case 9:
-            palavra.set("votos9", ++palavra.votos9);
-            palavra.set("total", palavra.total + 9);
-            break;
+        case 1:
+          palavra.set("votos1", ++palavra.votos1);
+          palavra.set("total", palavra.total + 1);
+          break;
+        case 2:
+          palavra.set("votos2", ++palavra.votos2);
+          palavra.set("total", palavra.total + 2);
+          break;
+        case 3:
+          palavra.set("votos3", ++palavra.votos3);
+          palavra.set("total", palavra.total + 3);
+          break;
+        case 4:
+          palavra.set("votos4", ++palavra.votos4);
+          palavra.set("total", palavra.total + 4);
+          break;
+        case 5:
+          palavra.set("votos5", ++palavra.votos5);
+          palavra.set("total", palavra.total + 5);
+          break;
+        case 6:
+          palavra.set("votos6", ++palavra.votos6);
+          palavra.set("total", palavra.total + 6);
+          break;
+        case 7:
+          palavra.set("votos7", ++palavra.votos7);
+          palavra.set("total", palavra.total + 7);
+          break;
+        case 8:
+          palavra.set("votos8", ++palavra.votos8);
+          palavra.set("total", palavra.total + 8);
+          break;
+        case 9:
+          palavra.set("votos9", ++palavra.votos9);
+          palavra.set("total", palavra.total + 9);
+          break;
         }
         palavra.set("qtdVotos", ++palavra.qtdVotos);
         palavra.set("votosmedia", palavra.total / palavra.qtdVotos);
@@ -467,6 +466,109 @@ router.post('/atualizarSenha', function (req, res) {
             status: "Erro! Senha atual invalida."
           });
         }
+      }
+    });
+});
+
+router.get('/userCards', (req, res) => {
+  let userId = req.user.id;
+  return UserCards.findAll({
+    where: {
+      id_usuario: userId
+    }
+  }).then((cards) => {
+    let cardsList = [0];
+    for (let i in cards) {
+      cardsList.push(cards[i].id_card);
+    }
+    Card.findAll({
+      where: {
+        id: {
+          $in: cardsList
+        }
+      }
+    }).then((cards) => {
+      res.status(200).json({
+        status: "Ok",
+        cards: cards
+      });
+    });
+  });
+});
+
+router.get('/cards', (req, res) => {
+  return Card.findAll()
+    .then((cards) => {
+      res.status(200).json({
+        cards: cards
+      });
+    });
+});
+
+router.get('/newCard', (req, res) => {
+  let userId = req.user.id;
+  let jaPossui = [0];
+  let disponiveis = [];
+  return UserCards.findAll({
+    where: {
+      id_usuario: userId
+    }
+  }).then((userCards) => {
+    for (let i in userCards) {
+      jaPossui.push(userCards[i].id_card);
+    }
+    Card.findAll({
+      where: {
+        id: {
+          $notIn: jaPossui
+        }
+      }
+    }).then((cards) => {
+      disponiveis = cards;
+      let random = Math.floor(Math.random() * disponiveis.length);
+      let card = disponiveis[random];
+      UserCards.create({
+        id_usuario: userId,
+        id_card: card.id
+      });
+      if (jaPossui.length === 1) {
+        User.findById(userId)
+          .then((user) => {
+            if (user && !user.task_conquista) {
+              user.task_conquista = true;
+              user.pontos += 100;
+              user.save();
+              res.status(200).json({
+                status: "Ok!",
+                user: user
+              });
+            } else {
+              res.status(500).json({
+                status: "Erro"
+              });
+            }
+          });
+      } else {
+        res.status(200).json({
+          status: "Ok!"
+        });
+      }
+    });
+  });
+});
+
+router.get('/taskRanking', (req, res) => {
+  let userId = req.user.id;
+  return User.findById(userId)
+    .then((user) => {
+      if (user && !user.task_ranking) {
+        user.task_ranking = true;
+        user.pontos += 50;
+        user.save();
+        res.status(200).json({
+          status: "Ok!",
+          user: user
+        });
       }
     });
 });
