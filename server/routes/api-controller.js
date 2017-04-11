@@ -416,33 +416,87 @@ router.get('/palavrasSugeridas', function (req, res) {
     })
 });
 
+router.get('/lider', (req, res) => {
+  let userId = req.user.id;
+  return User.findAll({
+    order: [
+      ['pontos', 'DESC']
+    ]
+  }).then((users) => {
+    console.log(users[0].id == userId);
+    res.status(200).json({
+      status: "Ok!",
+      lider: users[0].id == userId
+    });
+  });
+});
+
 router.post('/aceitarPalavra', function (req, res) {
   let id = req.body.palavra.id;
-  SugerirPalavra.findById(id)
-    .then((sugerir) => {
-      sugerir.aceita = true;
-      sugerir.id_avaliador = req.user.id;
-      Palavra.create({
-        nome: sugerir.palavra
+  let userId = req.user.id;
+  User.findAll({
+    order: [
+      ['pontos', 'DESC']
+    ]
+  }).then(function (users) {
+    if (users[0].id !== userId && !req.user.admin) {
+      return res.status(500).json({
+        status: "Erro! Não é líder do ranking."
       });
-      sugerir.save()
-        .then(() => {
-          return res.status(200);
+    } else {
+      SugerirPalavra.findById(id)
+        .then((sugerir) => {
+          sugerir.aceita = true;
+          sugerir.id_avaliador = userId;
+          Palavra.findAll({
+            where: {
+              nome: sugerir.palavra
+            }
+          }).then((palavra) => {
+            console.log(palavra);
+            if (palavra.length) {
+              return res.status(500).json({
+                status: "Erro! Palavra ja existe."
+              });
+            } else {
+              Palavra.create({
+                nome: sugerir.palavra
+              });
+              sugerir.save()
+                .then(() => {
+                  return res.status(200);
+                });
+            }
+          });
         });
-    });
+    }
+  });
 });
 
 router.post('/recusarPalavra', function (req, res) {
   let id = req.body.palavra.id;
-  SugerirPalavra.findById(id)
-    .then((sugerir) => {
-      sugerir.aceita = false;
-      sugerir.id_avaliador = req.user.id;
-      sugerir.save()
-        .then(() => {
-          return res.status(200);
+  let userId = req.user.id;
+  User.findAll({
+    order: [
+      ['pontos', 'DESC']
+    ]
+  }).then(function (users) {
+    if (users[0].id !== userId && !req.user.admin) {
+      return res.status(500).json({
+        status: "Erro! Não é líder do ranking."
+      });
+    } else {
+      SugerirPalavra.findById(id)
+        .then((sugerir) => {
+          sugerir.aceita = false;
+          sugerir.id_avaliador = req.user.id;
+          sugerir.save()
+            .then(() => {
+              return res.status(200);
+            });
         });
-    });
+    }
+  });
 });
 
 router.post('/atualizarSenha', function (req, res) {

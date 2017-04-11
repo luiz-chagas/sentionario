@@ -1,0 +1,29 @@
+<div class="container row">
+  <div class="eight columns card">
+    <div>
+      <h3>Aceitar Palavras</h3>
+    </div>
+    <div ng-show="lider" class="row">
+      <div ng-show="!palavrasSugeridas.length" class="infomsg">
+        Não existem novas palaras.
+      </div>
+      <div ng-repeat="palavra in palavrasSugeridas">
+        <div class="four columns">
+          {{palavra.palavra}}
+        </div>
+        <div class="eight columns">
+          <input class="inline" type="button" ng-click="aceitarPalavra(palavra)" value="Aceitar">
+          <input class="inline" type="button" ng-click="recusarPalavra(palavra)" value="Recusar">
+        </div>
+      </div>
+    </div>
+    <div ng-show="!lider">
+      <div class="infomsg">
+        Apenas o líder do ranking pode aceitar ou recusar novas palavras na plataforma.
+      </div>
+    </div>
+  </div>
+  <div class="four columns sidebar">
+    <dados-jogador></dados-jogador>
+  </div>
+</div>

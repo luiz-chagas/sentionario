@@ -87,6 +87,11 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: 'LogoutController',
       restricted: true
     })
+    .when('/administrar', {
+      controller: 'AdministrarController',
+      templateUrl: './partials/administrar.html',
+      restricted: true
+    })
     .when('/ademir', {
       controller: 'AdminController',
       templateUrl: './partials/ademir.html',
@@ -589,6 +594,45 @@ app.controller('AdminController', ["$scope", "$http", function ($scope, $http) {
   $http.get('/api/palavrasSugeridas')
     .then((response) => {
       console.log(response);
+      $scope.palavrasSugeridas = response.data.palavras;
+    }, (err) => {
+
+    });
+
+  $scope.aceitarPalavra = function (palavra) {
+    console.log(palavra);
+    $http.post('/api/aceitarPalavra', {
+      palavra: palavra
+    });
+    let index = $scope.palavrasSugeridas.indexOf(palavra);
+    $scope.palavrasSugeridas.splice(index, 1);
+  };
+
+  $scope.recusarPalavra = function (palavra) {
+    console.log(palavra);
+    $http.post('/api/recusarPalavra', {
+      palavra: palavra
+    });
+    let index = $scope.palavrasSugeridas.indexOf(palavra);
+    $scope.palavrasSugeridas.splice(index, 1);
+  };
+}]);
+
+app.controller('AdministrarController', ["$scope", "$http", function ($scope, $http) {
+
+  $scope.palavrasSugeridas = [];
+  $scope.lider = false;
+
+  $http.get('/api/lider')
+    .then((response) => {
+      console.log(response);
+      if (response.status == 200) {
+        $scope.lider = response.data.lider;
+      }
+    });
+
+  $http.get('/api/palavrasSugeridas')
+    .then((response) => {
       $scope.palavrasSugeridas = response.data.palavras;
     }, (err) => {
 
