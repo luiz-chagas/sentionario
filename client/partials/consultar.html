@@ -40,10 +40,10 @@
               <div class="detalhesPalavra">
                 <p class=""> Sentimento: {{sentimento(palavra.total, palavra.qtdVotos)}}</p>
                 <p class=""> {{positividade(palavra.total, palavra.qtdVotos) | percentage:0}} de positividade</p>
-                <div class='likeDiv' style="display:none" ng-show="palavra.qtdVotos">
+                <div class="likeDiv" ng-show="palavra.qtdVotos">
                   <p class="small">Esta classificação está correta?</p>
-                  <img class="like" src="images/like.png"></img><span class="likeLabel">0</span>
-                  <img class="like" src="images/dislike.png"></img><span class="likeLabel">0</span>
+                  <img class="like" ng-click="like(palavra, 1)" src="images/like.png"></img><span class="likeLabel">{{palavra.likePos}}</span>
+                  <img class="like" style="margin-bottom: -7px" ng-click="like(palavra, -1)" src="images/dislike.png"></img><span class="likeLabel">{{palavra.likeNeg}}</span>
                 </div>
               </div>
             </div>

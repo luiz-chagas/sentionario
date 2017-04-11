@@ -9,6 +9,7 @@ const MetaDiaria = require('../models/metaDiaria.js');
 const SugerirPalavra = require('../models/sugerirPalavra.js');
 const Card = require('../models/card.js');
 const UserCards = require('../models/usercards.js');
+const Like = require('../models/like.js');
 const passport = require('../middleware/auth.js');
 
 router.get('/palavras', function (req, res, next) {
@@ -571,6 +572,57 @@ router.get('/taskRanking', (req, res) => {
         });
       }
     });
+});
+
+router.post('/like', (req, res) => {
+  let userId = req.user.id;
+  let palavraId = req.body.palavra;
+  let likeValue = req.body.like;
+  if (!userId || !palavraId || !likeValue) {
+    res.status(500).json({
+      status: "Erro inesperado"
+    });
+    return;
+  } else {
+    Like.findAll({
+      where: {
+        id_usuario: userId,
+        id_palavra: palavraId
+      }
+    }).then((like) => {
+      if (like.length) {
+        res.status(500).json({
+          status: "Voto ja cadastrado"
+        });
+        return;
+      } else {
+        Like.create({
+          id_usuario: userId,
+          id_palavra: palavraId,
+          like: likeValue
+        }).then((like) => {
+          if (!like) {
+            res.status(500).json({
+              status: "Impossivel registrar voto"
+            });
+            return;
+          } else {
+            Palavra.findById(palavraId).then((palavra) => {
+              if (likeValue > 0) {
+                palavra.likePos++;
+              } else {
+                palavra.likeNeg++;
+              }
+              palavra.save();
+              res.status(200).json({
+                status: "Voto computado!"
+              });
+            });
+          }
+        });
+      }
+    });
+  }
 });
 
 router.get('*', function (req, res) {

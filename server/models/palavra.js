@@ -73,6 +73,16 @@ module.exports = mydb.define("palavra", {
     type: Sequelize.FLOAT,
     defaultValue: 5,
     allowNull: false
+  },
+  likePos: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    allowNull: false
+  },
+  likeNeg: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    allowNull: false
   }
 }, {
   tableName: 'word'

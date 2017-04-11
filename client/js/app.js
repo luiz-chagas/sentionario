@@ -178,10 +178,11 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
     palavras = response.data;
     setPalavra();
   });
-  update = function () {
+
+  function update() {
     $scope.output = $scope.estados[$scope.slider.value - 1];
     $scope.smiley = "../images/smiley" + $scope.slider.value + ".png";
-  };
+  }
   $scope.palavra = {
     nome: 'Carregando...'
   };
@@ -231,7 +232,8 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
   ];
   $scope.output = $scope.estados[$scope.slider.value - 1];
   $scope.smiley = "../images/smiley" + $scope.slider.value + ".png";
-  setPalavra = function () {
+
+  function setPalavra() {
     var i = Math.random() * palavras.length;
     i = Math.floor(i);
     $scope.palavra.nome = palavras[i].nome;
@@ -239,7 +241,7 @@ app.controller('ColaborarController', ["$scope", "$http", "$timeout", "AuthServi
     $scope.slider.value = 5;
     update();
     $scope.disabled = false;
-  };
+  }
 }]);
 
 app.controller('ConsultarController', ["$scope", "$http", "$timeout", function ($scope, $http, $timeout) {
@@ -337,9 +339,9 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function (
     }
   };
 
-  update = function () {
+  function update() {
     $scope.output = $scope.estados[$scope.slider.value - 1];
-  };
+  }
 
   $scope.output = "Extremamente Negativo";
 
@@ -354,6 +356,21 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function (
       onChange: update
     }
   };
+
+  $scope.like = function (palavra, like) {
+    $http.post('/api/like', {
+      palavra: palavra.id,
+      like: like
+    }).then((response) => {
+      if (response.status === 200) {
+        if (like > 0) {
+          palavra.likePos++;
+        } else {
+          palavra.likeNeg++;
+        }
+      }
+    });
+  }
 
   $scope.liberar = function (palavra) {
     $scope.output = "Extremamente Negativo";
@@ -381,7 +398,7 @@ app.controller('ConsultarController', ["$scope", "$http", "$timeout", function (
       });
   };
 
-  atualizarPalavra = function (id, value) {
+  function atualizarPalavra(id, value) {
     palavras.length = 0;
     $scope.palavrasFiltradas.length = 0;
     $http.get("/api/palavras").then(function (response) {
