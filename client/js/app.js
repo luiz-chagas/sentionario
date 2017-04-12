@@ -104,9 +104,11 @@ app.config(function ($routeProvider, $locationProvider) {
 
 app.controller('HomeController', ["$scope", "$location", "AuthService", "$route", "$http", function ($scope, $location, AuthService, $route, $http) {
 
+  let pontosNecessariosSugerir = 250;
+
   AuthService.getUserStatus().then(function () {
     if (AuthService.isLoggedIn()) {
-      $scope.sugerir = AuthService.getUser().pontos > 499 ? true : false;
+      $scope.sugerir = AuthService.getUser().pontos > pontosNecessariosSugerir ? true : false;
       $scope.metaAvatar = ($scope.user.avatar === 'anonymous');
       $('#myBar').css("width", ($scope.metaDiaria.votos * 5) + "%");
     } else {
@@ -661,6 +663,7 @@ app.controller('LogoutController', ["$scope", 'AuthService', function ($scope, A
 
 app.controller('ConquistasController', ["$scope", '$http', function ($scope, $http) {
   let debounce = true;
+  let preco = 500;
 
   function loadUserCards() {
     $http.get('/api/userCards')
@@ -671,8 +674,8 @@ app.controller('ConquistasController', ["$scope", '$http', function ($scope, $ht
           .then((response) => {
             $scope.items = response.data.cards
             $scope.items.length -= $scope.cards.length;
-            $scope.cardsAvailable = Math.floor($scope.user.pontos / 1000) + 1 - $scope.cards.length;
-            $scope.pointsToNextCard = 1000 - ($scope.user.pontos % 1000);
+            $scope.cardsAvailable = Math.floor($scope.user.pontos / preco) + 1 - $scope.cards.length;
+            $scope.pointsToNextCard = preco - ($scope.user.pontos % preco);
             debounce = true;
           });
       });
@@ -689,8 +692,7 @@ app.controller('ConquistasController', ["$scope", '$http', function ($scope, $ht
     if (debounce) {
       debounce = false;
       let cardsUsed = $scope.cards.length;
-      let price = 1000;
-      if ($scope.user.pontos > cardsUsed * price) {
+      if ($scope.user.pontos > cardsUsed * preco) {
         $http.get('/api/newCard')
           .then((response) => {
             if (response.data.user) {
