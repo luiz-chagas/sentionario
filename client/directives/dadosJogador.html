@@ -33,7 +33,7 @@
         <input type="text" ng-model="palavraSugerida" ng-disabled="!sugerir" />
         <button ng-click="sugerirPalavra()" class="botao logout" ng-show="sugerir">Sugerir</button>
         <div class="infomsg" ng-show="!sugerir">
-          <span>Você precisa de pelo menos 500 pontos para poder sugerir palavras</span>
+          <span>Você precisa de pelo menos {{pontosNecessarios}} pontos para poder sugerir palavras</span>
         </div>
         <p>{{status}}</p>
       </form>

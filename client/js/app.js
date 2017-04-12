@@ -105,6 +105,7 @@ app.config(function ($routeProvider, $locationProvider) {
 app.controller('HomeController', ["$scope", "$location", "AuthService", "$route", "$http", function ($scope, $location, AuthService, $route, $http) {
 
   let pontosNecessariosSugerir = 250;
+  $scope.pontosNecessarios = pontosNecessariosSugerir;
 
   AuthService.getUserStatus().then(function () {
     if (AuthService.isLoggedIn()) {
