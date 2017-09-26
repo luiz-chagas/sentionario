@@ -21,7 +21,7 @@ router.get('/palavras', function(req, res, next) {
 router.get('/sentionario', function(req, res, next) {
   Palavra.findAll().then(function(palavras) {
     return res.status(200).json(palavras.map(elem => {
-      return {palavra: elem.nome, valor: votosmedia}
+      return {palavra: elem.nome, valor: elem.votosmedia}
     }));
   });
 });
